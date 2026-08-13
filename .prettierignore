@@ -7,3 +7,6 @@ package-lock.json
 public
 docs
 design-references
+
+# Generated from tokens/*.json by scripts/build-tokens.mjs
+src/styles/tokens.generated.css

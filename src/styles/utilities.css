@@ -1,0 +1,97 @@
+/* Utilidades propias de RELAY. Solo se añade aquí lo que se repite en varias
+   vistas; los patrones de un único uso viven en su componente. */
+
+/** Ancho de contenido y márgenes laterales compartidos por todas las páginas. */
+@utility container-page {
+  width: 100%;
+  max-width: var(--rly-layout-content-max);
+  margin-inline: auto;
+  padding-inline: var(--rly-layout-gutter);
+
+  @media (width >= 64rem) {
+    padding-inline: var(--rly-layout-gutter-lg);
+  }
+}
+
+/** Ritmo vertical de las secciones de marketing. */
+@utility section-y {
+  padding-block: var(--rly-layout-section-y);
+}
+
+/** Superficie base de tarjeta: borde sutil, sin sombra por defecto. */
+@utility surface-card {
+  background-color: var(--rly-color-surface);
+  border: 1px solid var(--rly-color-border);
+  border-radius: var(--radius-lg);
+}
+
+/** Variante de tarjeta sobre bloques oscuros. */
+@utility surface-card-inverse {
+  background-color: var(--rly-color-inverse-elevated);
+  border: 1px solid var(--rly-color-border-inverse);
+  border-radius: var(--radius-lg);
+}
+
+/** Anillo de foco explícito para elementos que gestionan su propio outline. */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid var(--rly-color-ink);
+    outline-offset: 2px;
+  }
+}
+
+/** Anillo de foco sobre superficies Ink, donde el negro no contrasta. */
+@utility focus-ring-inverse {
+  &:focus-visible {
+    outline: 2px solid var(--rly-color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/** Carruseles de chips y tabs en móvil: se desplazan sin barra visible. */
+@utility scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/** Trunca a un número concreto de líneas manteniendo el alto reservado. */
+@utility line-clamp-* {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: --value(integer);
+  overflow: hidden;
+}
+
+/** Oculta visualmente sin sacar del árbol de accesibilidad. */
+@utility sr-only-focusable {
+  &:not(:focus):not(:focus-within) {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/** Rejilla de tarjetas del marketplace: 1 → 2 → 3 columnas. */
+@utility grid-cards {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @media (width >= 40rem) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (width >= 64rem) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1.25rem;
+  }
+}

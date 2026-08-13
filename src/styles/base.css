@@ -1,0 +1,130 @@
+/* Tipografía, defaults de elemento y reglas transversales de RELAY. */
+
+/* Bricolage Grotesque Variable — eje de peso (200–800), auto-alojado.
+   Se cargan solo los subconjuntos latinos: el resto del catálogo del tipo no
+   se usa en la interfaz y añadiría descargas sin retorno. */
+@font-face {
+  font-family: 'Bricolage Grotesque Variable';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/bricolage-grotesque-latin-wght.woff2') format('woff2-variations');
+  unicode-range:
+    U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+  font-family: 'Bricolage Grotesque Variable';
+  font-style: normal;
+  font-weight: 200 800;
+  font-display: swap;
+  src: url('/fonts/bricolage-grotesque-latin-ext-wght.woff2') format('woff2-variations');
+  unicode-range:
+    U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F,
+    U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@layer base {
+  :root {
+    /* Marcas de las casillas de verificación: SVG en línea para que el estado
+       marcado no dependa de una petición extra ni de un pseudo-elemento. */
+    --rly-check-mark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23D7FF3F' stroke-width='2.25' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m3.5 8.4 3 3L12.5 5'/%3E%3C/svg%3E");
+    --rly-check-dash: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23D7FF3F' stroke-width='2.25' stroke-linecap='round'%3E%3Cpath d='M4 8h8'/%3E%3C/svg%3E");
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    /* Compensa la cabecera fija al saltar a un ancla. */
+    scroll-padding-top: calc(var(--rly-layout-header) + 1rem);
+  }
+
+  body {
+    background-color: var(--rly-color-canvas);
+    color: var(--rly-color-ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-synthesis-weight: none;
+  }
+
+  /* Los titulares llevan su escala desde las utilidades `text-title-*`; aquí
+     solo se fija el ritmo compartido para que ningún heading herede el
+     line-height de párrafo. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--rly-color-accent);
+    color: var(--rly-color-accent-contrast);
+  }
+
+  /* Un solo anillo de foco en toda la aplicación. Los componentes sobre fondo
+     oscuro cambian a `focus-ring-inverse`, nunca lo eliminan. */
+  :focus-visible {
+    outline: 2px solid var(--rly-color-ink);
+    outline-offset: 2px;
+    border-radius: var(--radius-xs);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+
+  /* Angular monta la aplicación con estilos ya aplicados; sin esto el host
+     raíz colapsa a altura cero durante la hidratación. */
+  rly-root {
+    display: block;
+    min-height: 100dvh;
+  }
+
+  svg {
+    flex-shrink: 0;
+  }
+
+  /* Los inputs no heredan la familia por defecto en Safari/Firefox. */
+  input,
+  select,
+  textarea,
+  button {
+    font: inherit;
+    color: inherit;
+  }
+
+  /* Tablas: RELAY las usa densas y con borde, nunca con líneas dobles. */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+}
+
+/* El movimiento de RELAY es decorativo por definición: si el sistema pide
+   reducirlo, se desactiva por completo en lugar de acortarlo. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

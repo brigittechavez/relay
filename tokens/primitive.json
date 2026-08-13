@@ -1,0 +1,34 @@
+{
+  "$description": "Valores crudos de RELAY. Ningún componente debe consumirlos directamente: se referencian desde semantic.json.",
+  "color": {
+    "acid": {
+      "soft": "#F0FFCB",
+      "default": "#D7FF3F",
+      "hover": "#C5ED2E"
+    },
+    "ink": {
+      "default": "#101210",
+      "elevated": "#1A1D1A",
+      "border": "#2A2E29",
+      "secondary": "#9AA096"
+    },
+    "neutral": {
+      "canvas": "#F7F8F4",
+      "surface": "#FFFFFF",
+      "surfaceMuted": "#EEF0EA",
+      "border": "#DDE0D8",
+      "borderStrong": "#C6CABF",
+      "textSecondary": "#656B63",
+      "textMuted": "#8D9389"
+    },
+    "success": { "soft": "#E4F4EC", "default": "#178A55", "strong": "#0F6B41" },
+    "warning": { "soft": "#FBF0DC", "default": "#D98B18", "strong": "#A9690F" },
+    "error": { "soft": "#FBE9E9", "default": "#D64545", "strong": "#A93636" },
+    "info": { "soft": "#E6EEFB", "default": "#3478E5", "strong": "#265CB4" },
+    "static": {
+      "white": "#FFFFFF",
+      "black": "#000000",
+      "overlay": "rgba(16, 18, 16, 0.56)"
+    }
+  }
+}

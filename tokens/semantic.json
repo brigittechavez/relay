@@ -1,0 +1,42 @@
+{
+  "$description": "Roles de color. Es la única capa que la UI consume. Las referencias {color.x.y} se resuelven contra primitive.json.",
+  "color": {
+    "canvas": "{color.neutral.canvas}",
+    "surface": "{color.neutral.surface}",
+    "surface-muted": "{color.neutral.surfaceMuted}",
+    "inverse": "{color.ink.default}",
+    "inverse-elevated": "{color.ink.elevated}",
+
+    "ink": "{color.ink.default}",
+    "text-secondary": "{color.neutral.textSecondary}",
+    "text-muted": "{color.neutral.textMuted}",
+    "text-inverse": "{color.neutral.surface}",
+    "text-inverse-secondary": "{color.ink.secondary}",
+
+    "border": "{color.neutral.border}",
+    "border-strong": "{color.neutral.borderStrong}",
+    "border-inverse": "{color.ink.border}",
+
+    "accent": "{color.acid.default}",
+    "accent-hover": "{color.acid.hover}",
+    "accent-soft": "{color.acid.soft}",
+    "accent-contrast": "{color.ink.default}",
+
+    "success": "{color.success.default}",
+    "success-soft": "{color.success.soft}",
+    "success-strong": "{color.success.strong}",
+    "warning": "{color.warning.default}",
+    "warning-soft": "{color.warning.soft}",
+    "warning-strong": "{color.warning.strong}",
+    "danger": "{color.error.default}",
+    "danger-soft": "{color.error.soft}",
+    "danger-strong": "{color.error.strong}",
+    "info": "{color.info.default}",
+    "info-soft": "{color.info.soft}",
+    "info-strong": "{color.info.strong}",
+
+    "overlay": "{color.static.overlay}",
+    "white": "{color.static.white}",
+    "black": "{color.static.black}"
+  }
+}

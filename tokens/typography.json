@@ -1,0 +1,81 @@
+{
+  "$description": "Bricolage Grotesque Variable es la única familia. La escala fluida cubre 390 px → 1440 px sin media queries de tipografía.",
+  "fontFamily": {
+    "sans": "'Bricolage Grotesque Variable', 'Bricolage Grotesque', ui-sans-serif, system-ui, 'Segoe UI', sans-serif",
+    "mono": "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace"
+  },
+  "text": {
+    "display": {
+      "size": "clamp(2.75rem, 1.15rem + 6.2vw, 5.5rem)",
+      "lineHeight": "0.96",
+      "weight": "620",
+      "tracking": "-0.035em"
+    },
+    "title-xl": {
+      "size": "clamp(2.25rem, 1.35rem + 3.6vw, 4.5rem)",
+      "lineHeight": "1.02",
+      "weight": "600",
+      "tracking": "-0.03em"
+    },
+    "title-lg": {
+      "size": "clamp(1.875rem, 1.35rem + 2.1vw, 3rem)",
+      "lineHeight": "1.08",
+      "weight": "600",
+      "tracking": "-0.025em"
+    },
+    "title-md": {
+      "size": "clamp(1.75rem, 1.5rem + 1vw, 2.25rem)",
+      "lineHeight": "1.15",
+      "weight": "600",
+      "tracking": "-0.02em"
+    },
+    "title-sm": {
+      "size": "1.5rem",
+      "lineHeight": "1.25",
+      "weight": "600",
+      "tracking": "-0.015em"
+    },
+    "title-xs": {
+      "size": "1.125rem",
+      "lineHeight": "1.35",
+      "weight": "600",
+      "tracking": "-0.01em"
+    },
+    "kpi": {
+      "size": "clamp(1.75rem, 1.4rem + 1.4vw, 2.25rem)",
+      "lineHeight": "1.05",
+      "weight": "600",
+      "tracking": "-0.025em"
+    },
+    "body-lg": {
+      "size": "1.0625rem",
+      "lineHeight": "1.6",
+      "weight": "400",
+      "tracking": "-0.005em"
+    },
+    "body": {
+      "size": "0.9375rem",
+      "lineHeight": "1.6",
+      "weight": "400",
+      "tracking": "0"
+    },
+    "ui": {
+      "size": "0.875rem",
+      "lineHeight": "1.45",
+      "weight": "500",
+      "tracking": "0"
+    },
+    "ui-sm": {
+      "size": "0.8125rem",
+      "lineHeight": "1.4",
+      "weight": "500",
+      "tracking": "0"
+    },
+    "label": {
+      "size": "0.75rem",
+      "lineHeight": "1.35",
+      "weight": "600",
+      "tracking": "0.04em"
+    }
+  }
+}

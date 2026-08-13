@@ -1,0 +1,16 @@
+{
+  "$description": "Escala base de 4 px (Tailwind genera el resto a partir de --spacing) más las medidas de layout que se repiten en toda la app.",
+  "base": "0.25rem",
+  "layout": {
+    "gutter": "1.25rem",
+    "gutter-lg": "2rem",
+    "content-max": "80rem",
+    "prose-max": "42rem",
+    "sidebar": "16rem",
+    "sidebar-collapsed": "4.5rem",
+    "header": "4rem",
+    "header-compact": "3.5rem",
+    "bottom-nav": "4rem",
+    "section-y": "clamp(3.5rem, 2rem + 6vw, 7.5rem)"
+  }
+}

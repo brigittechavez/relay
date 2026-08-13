@@ -1,0 +1,12 @@
+{
+  "$description": "Elevación contenida: las superficies se separan con borde, no con sombra. lg queda reservado a overlays.",
+  "shadow": {
+    "none": "none",
+    "xs": "0 1px 2px 0 rgba(16, 18, 16, 0.04)",
+    "sm": "0 1px 3px 0 rgba(16, 18, 16, 0.06), 0 1px 2px -1px rgba(16, 18, 16, 0.04)",
+    "md": "0 4px 16px -6px rgba(16, 18, 16, 0.12)",
+    "lg": "0 16px 40px -12px rgba(16, 18, 16, 0.18)",
+    "focus": "0 0 0 2px #F7F8F4, 0 0 0 4px #101210",
+    "focus-inverse": "0 0 0 2px #101210, 0 0 0 4px #D7FF3F"
+  }
+}

@@ -1,1 +1,7 @@
+/* Punto de entrada de estilos de RELAY.
+   El orden importa: Tailwind primero, luego los tokens generados (que
+   redefinen el tema), después los defaults de elemento y las utilidades. */
 @import 'tailwindcss';
+@import './styles/tokens.generated.css';
+@import './styles/base.css';
+@import './styles/utilities.css';
