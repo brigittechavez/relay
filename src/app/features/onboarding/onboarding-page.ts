@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
@@ -442,12 +443,29 @@ export class OnboardingPage {
 
   protected readonly progress = computed(() => ((this.step() + 1) / this.totalSteps()) * 100);
 
+  /**
+   * Validez de los formularios como señal.
+   *
+   * `FormGroup.valid` es una propiedad normal, no una señal: leerla dentro de un
+   * `computed` lo evalúa una vez y no vuelve a recalcularse al escribir. El botón
+   * de continuar se quedaba deshabilitado para siempre en el segundo paso, que
+   * es justo donde se rellena el formulario.
+   */
+  private readonly affiliateStatus = toSignal(this.affiliateForm.statusChanges, {
+    initialValue: this.affiliateForm.status,
+  });
+
+  private readonly organizationStatus = toSignal(this.organizationForm.statusChanges, {
+    initialValue: this.organizationForm.status,
+  });
+
   protected readonly canContinue = computed(() => {
     if (this.busy()) return false;
 
     if (this.step() === 1) {
-      // El formulario se marca al intentar avanzar; aquí solo se comprueba.
-      return this.path() === 'affiliate' ? this.affiliateFormValid() : this.organizationFormValid();
+      const status =
+        this.path() === 'affiliate' ? this.affiliateStatus() : this.organizationStatus();
+      return status === 'VALID';
     }
 
     return true;
@@ -546,14 +564,6 @@ export class OnboardingPage {
     }
 
     await this.finish();
-  }
-
-  private affiliateFormValid(): boolean {
-    return this.affiliateForm.valid;
-  }
-
-  private organizationFormValid(): boolean {
-    return this.organizationForm.valid;
   }
 
   private validateCurrentForm(): boolean {

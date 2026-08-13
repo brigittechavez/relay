@@ -1,5 +1,7 @@
 import { expect, test, type ConsoleMessage, type Page } from '@playwright/test';
 
+import { waitForHydration } from './helpers';
+
 /**
  * Comprobaciones transversales de calidad.
  *
@@ -71,6 +73,7 @@ test.describe('Área pública', () => {
 
   test('el enlace de salto al contenido funciona con teclado', async ({ page }) => {
     await page.goto('/marketplace');
+    await waitForHydration(page);
 
     await page.keyboard.press('Tab');
     const skip = page.getByRole('link', { name: /saltar al contenido/i });
@@ -99,6 +102,7 @@ test.describe('Área autenticada', () => {
     await page.goto('/login');
     await page.evaluate(() => window.localStorage.clear());
     await page.reload();
+    await waitForHydration(page);
     await page.getByRole('button', { name: /ver demo como afiliado/i }).click();
 
     await expect(page.getByRole('heading', { name: /hola, lucía/i })).toBeVisible();
@@ -115,6 +119,7 @@ test.describe('Área autenticada', () => {
     await page.goto('/login');
     await page.evaluate(() => window.localStorage.clear());
     await page.reload();
+    await waitForHydration(page);
     await page.getByRole('button', { name: /ver demo como afiliado/i }).click();
     // Esperar a que la sesión quede escrita antes de navegar por URL directa.
     await expect(page).toHaveURL(/\/app\/affiliate\/inicio/);

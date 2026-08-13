@@ -74,7 +74,10 @@ const TRUST = [
     />
 
     <!-- Oportunidades reales del marketplace -->
-    <section class="container-page relative -mt-10 pb-[var(--rly-layout-section-y)] lg:-mt-16" aria-labelledby="oportunidades">
+    <section
+      class="container-page pb-[var(--rly-layout-section-y)] pt-14 lg:pt-20"
+      aria-labelledby="oportunidades"
+    >
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-w-xl">
           <p [class]="eyebrow">Oportunidades</p>

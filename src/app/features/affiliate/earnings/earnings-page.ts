@@ -197,8 +197,7 @@ import { DatePipe, MoneyPipe, RelativeDatePipe } from '@shared/pipes/format.pipe
         </section>
 
         <p class="mt-6 text-ui-sm text-text-muted">
-          Los pagos de este proyecto son simulados: RELAY no integra pasarela de pago, no emite
-          facturas y no calcula impuestos.
+          Los pagos son simulados: no hay pasarela, facturas ni impuestos.
         </p>
       }
     </div>

@@ -1,4 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
+import { resetDemoState, startAffiliateDemo } from './helpers';
 
 /**
  * Recorrido protagonista del afiliado.
@@ -9,25 +11,6 @@ import { expect, test, type Page } from '@playwright/test';
  * Cada prueba parte de una demo limpia: el estado vive en `localStorage`, así
  * que basta con vaciarlo antes de navegar.
  */
-
-/**
- * Vacía el estado de la demo una sola vez.
- *
- * No sirve `addInitScript`: se ejecuta en cada navegación y borraría la sesión
- * a mitad del recorrido, que es justo lo que estas pruebas comprueban.
- */
-async function resetDemoState(page: Page): Promise<void> {
-  await page.goto('/login');
-  await page.evaluate(() => window.localStorage.clear());
-  await page.reload();
-}
-
-async function startAffiliateDemo(page: Page): Promise<void> {
-  await resetDemoState(page);
-
-  await page.getByRole('button', { name: /ver demo como afiliado/i }).click();
-  await expect(page).toHaveURL(/\/app\/affiliate\/inicio/);
-}
 
 test.describe('Afiliado: descubrir y solicitar', () => {
   test('desde el marketplace hasta la solicitud enviada', async ({ page }) => {

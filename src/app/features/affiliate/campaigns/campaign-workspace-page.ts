@@ -350,8 +350,7 @@ const WINDOW_DAYS = 30;
                 </ul>
 
                 <p class="mt-4 text-ui-sm text-text-muted">
-                  Los archivos descargables son simulados en este proyecto: solo los textos se
-                  copian de verdad.
+                  Los archivos son simulados; los textos sí se copian.
                 </p>
               } @else {
                 <div class="rounded-lg border border-border bg-surface">
@@ -538,8 +537,8 @@ const WINDOW_DAYS = 30;
         </rly-field>
 
         <p class="text-ui-sm text-text-muted">
-          El seguimiento es simulado: al crear el link, RELAY le atribuye el rendimiento típico de
-          ese canal en esta campaña.
+          El seguimiento es simulado: al crear el link se le atribuye el rendimiento típico de ese
+          canal.
         </p>
       </form>
 

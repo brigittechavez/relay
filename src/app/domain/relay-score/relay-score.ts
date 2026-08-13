@@ -76,8 +76,7 @@ import { AFFILIATE_LEVELS, AFFILIATE_LEVEL_LABELS } from '@data/models/taxonomy'
       </ul>
 
       <p class="mt-4 text-ui-sm text-text-muted">
-        El Relay Score es una métrica simulada de este proyecto: resume rendimiento, experiencia,
-        perfil y consistencia.
+        Resume rendimiento, experiencia, perfil y consistencia.
       </p>
     }
   `,

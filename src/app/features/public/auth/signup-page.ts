@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import {
+  afterNextRender,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  ElementRef,
+  inject,
+  signal,
+  viewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
@@ -62,7 +71,7 @@ import { SavedStore } from '@core/session/saved.store';
         >
           <h2 id="formulario" class="text-title-xs text-ink">Datos de la cuenta</h2>
 
-          <form class="mt-6 flex flex-col gap-5" (ngSubmit)="submit()">
+          <form #form class="mt-6 flex flex-col gap-5" (keydown.enter)="submit()">
             <rly-field label="Nombre" required [error]="nameError()">
               <input
                 rlyInput
@@ -98,7 +107,14 @@ import { SavedStore } from '@core/session/saved.store';
               />
             </rly-field>
 
-            <button rlyButton variant="primary" block type="submit" [loading]="busy()">
+            <button
+              rlyButton
+              variant="primary"
+              block
+              type="button"
+              [loading]="busy()"
+              (click)="submit()"
+            >
               Crear cuenta y continuar
             </button>
           </form>
@@ -118,6 +134,8 @@ import { SavedStore } from '@core/session/saved.store';
   `,
 })
 export class SignupPage {
+  private readonly form = viewChild.required<ElementRef<HTMLFormElement>>('form');
+
   private readonly session = inject(SessionStore);
   private readonly saved = inject(SavedStore);
   private readonly router = inject(Router);
@@ -135,6 +153,22 @@ export class SignupPage {
   protected readonly password = signal('');
   protected readonly busy = signal(false);
   protected readonly submitted = signal(false);
+
+  constructor() {
+    /**
+     * Recupera lo que se haya escrito antes de la hidratación.
+     *
+     * La página se sirve prerenderizada, así que se puede empezar a escribir
+     * antes de que Angular se enganche a los campos. Ese texto queda en el DOM
+     * pero no llega a las señales, y al enviar el formulario parecería vacío.
+     */
+    afterNextRender(() => {
+      const controls = this.form().nativeElement.elements;
+      this.name.set(value(controls, 'name') || this.name());
+      this.email.set(value(controls, 'email') || this.email());
+      this.password.set(value(controls, 'password') || this.password());
+    });
+  }
 
   protected readonly nameError = computed(() =>
     this.submitted() && !this.name().trim() ? 'Escribe tu nombre para continuar' : null,
@@ -168,4 +202,10 @@ export class SignupPage {
       this.busy.set(false);
     }
   }
+}
+
+/** Valor actual de un campo del formulario, tal y como está en el DOM. */
+function value(controls: HTMLFormControlsCollection, name: string): string {
+  const control = controls.namedItem(name);
+  return control instanceof HTMLInputElement ? control.value.trim() : '';
 }

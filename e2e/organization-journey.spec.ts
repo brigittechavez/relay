@@ -1,4 +1,6 @@
-import { expect, test, type Page } from '@playwright/test';
+import { expect, test } from '@playwright/test';
+
+import { startOrganizationDemo } from './helpers';
 
 /**
  * Recorrido de la organización.
@@ -7,15 +9,6 @@ import { expect, test, type Page } from '@playwright/test';
  * una solicitud y la validación de una conversión, que son las dos acciones
  * que sostienen el resto del área.
  */
-
-async function startOrganizationDemo(page: Page): Promise<void> {
-  await page.goto('/login');
-  await page.evaluate(() => window.localStorage.clear());
-  await page.reload();
-
-  await page.getByRole('button', { name: /ver demo como empresa/i }).click();
-  await expect(page).toHaveURL(/\/app\/organization\/norte-digital\/overview/);
-}
 
 test.describe('Organización: crear campaña', () => {
   test('recorre el wizard completo y publica', async ({ page }) => {

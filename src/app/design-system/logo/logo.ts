@@ -37,7 +37,7 @@ import {
     </span>
 
     @if (variant() === 'full') {
-      <span [class]="wordClasses()">RELAY</span>
+      <span [class]="wordClasses()" translate="no">RELAY</span>
     }
 
     <span class="sr-only">RELAY · inicio</span>

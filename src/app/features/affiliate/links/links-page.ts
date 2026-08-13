@@ -265,8 +265,7 @@ import { MoneyPipe, NumberPipe, PercentPipe, RelativeDatePipe } from '@shared/pi
         </ul>
 
         <p class="mt-4 text-ui-sm text-text-muted">
-          El seguimiento de clics y la atribución de conversiones están simulados en este proyecto:
-          los enlaces no redirigen a ningún sitio real.
+          Los enlaces no redirigen: el seguimiento es simulado.
         </p>
       }
     </div>

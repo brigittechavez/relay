@@ -27,6 +27,12 @@ async function signIn(page, role) {
   await page.goto(BASE + '/login');
   await page.evaluate(() => window.localStorage.clear());
   await page.reload();
+
+  // La página llega prerenderizada: el botón se ve antes de que Angular se
+  // enganche a él. Angular limpia los `jsaction` al hidratar, así que su
+  // ausencia marca el momento en que la pantalla responde de verdad.
+  await page.waitForFunction(() => !document.querySelector('[jsaction]'));
+
   await page.getByRole('button', { name: new RegExp('ver demo como ' + role, 'i') }).click();
   await page.waitForURL(/\/app\//);
 }

@@ -191,8 +191,7 @@ const LIFECYCLE: Partial<
                 </ul>
 
                 <p class="mt-4 text-ui-sm text-text-muted">
-                  Visitas y leads son proporciones simuladas: RELAY no mide tráfico. Clics y
-                  conversiones sí salen de los registros.
+                  Visitas y leads son proporciones estimadas; clics y conversiones son reales.
                 </p>
               </rly-analytics-card>
 

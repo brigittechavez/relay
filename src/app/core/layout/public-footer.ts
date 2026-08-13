@@ -78,8 +78,8 @@ const GROUPS: readonly FooterGroup[] = [
         class="mt-12 flex flex-col gap-3 border-t border-border pt-6 text-ui-sm text-text-muted
                sm:flex-row sm:items-center sm:justify-between"
       >
-        <p>RELAY · Proyecto de portafolio. No es un servicio real y no procesa pagos.</p>
-        <p>Datos, métricas y organizaciones son ficticios.</p>
+        <p>RELAY · Proyecto de portafolio con datos de demostración.</p>
+        <p>No es un servicio real y no procesa pagos.</p>
       </div>
     </div>
   `,

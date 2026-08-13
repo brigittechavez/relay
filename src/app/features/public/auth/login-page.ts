@@ -105,16 +105,8 @@ import { SavedStore } from '@core/session/saved.store';
             </button>
           </div>
 
-          <p
-            class="mt-6 flex items-start gap-2.5 rounded-md border border-border bg-surface-muted
-                   px-4 py-3 text-ui-sm text-text-secondary"
-          >
-            <rly-icon name="info" [size]="16" class="mt-0.5 text-info" />
-            <span>
-              RELAY no tiene autenticación real. No se validan credenciales ni se envía nada a
-              ningún servidor: los datos de la demo viven en tu navegador y puedes restablecerlos
-              cuando quieras.
-            </span>
+          <p class="mt-6 text-ui-sm text-text-muted">
+            RELAY está en modo demo: entras sin credenciales y todo queda en tu navegador.
           </p>
         </section>
 
@@ -125,10 +117,10 @@ import { SavedStore } from '@core/session/saved.store';
         >
           <h2 id="formulario" class="text-title-xs text-ink">Iniciar sesión</h2>
           <p class="mt-1 text-ui-sm text-text-secondary">
-            Cualquier dato sirve: el formulario abre la misma demo de afiliado.
+            Cualquier dato sirve: abre la misma demo de afiliado.
           </p>
 
-          <form class="mt-6 flex flex-col gap-5" (ngSubmit)="submit()">
+          <form class="mt-6 flex flex-col gap-5" (keydown.enter)="submit()">
             <rly-field label="Correo electrónico" [error]="emailError()">
               <input
                 rlyInput
@@ -152,7 +144,14 @@ import { SavedStore } from '@core/session/saved.store';
               />
             </rly-field>
 
-            <button rlyButton variant="primary" block type="submit" [loading]="busy()">
+            <button
+              rlyButton
+              variant="primary"
+              block
+              type="button"
+              [loading]="busy()"
+              (click)="submit()"
+            >
               Entrar en la demo
             </button>
           </form>

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { Button } from '@ds/button/button';
@@ -27,7 +27,7 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
     <!-- El hero arranca bajo la cabecera transparente. -->
     <div class="container-page pb-16 pt-28 lg:pb-24 lg:pt-36">
       <div class="grid items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-        <div>
+        <div class="min-w-0">
           <p
             class="inline-flex items-center gap-2 rounded-full border border-border-inverse px-3
                    py-1.5 text-ui-sm text-text-inverse-secondary"
@@ -36,21 +36,8 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
             Marketplace de afiliación · Perú
           </p>
 
-          <h1 class="mt-6 text-display text-text-inverse">
-            El relevo entre
-            <!-- Los monogramas viven dentro de la frase: no son decoración,
-                 son las organizaciones que están publicando ahora mismo. -->
-            <span class="inline-flex translate-y-1 items-center -space-x-2 align-middle" aria-hidden="true">
-              @for (initials of organizationMarks(); track initials) {
-                <span
-                  class="grid size-[0.68em] shrink-0 place-items-center rounded-full border-2
-                         border-inverse bg-surface text-ink"
-                >
-                  <span class="text-[0.26em] font-semibold leading-none">{{ initials }}</span>
-                </span>
-              }
-            </span>
-            lo que ofreces y
+          <h1 class="mt-6 text-balance text-display text-text-inverse">
+            El relevo entre lo que ofreces y
             <span class="text-accent">quien sabe recomendarlo</span>
           </h1>
 
@@ -100,7 +87,7 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
         </div>
 
         <!-- Muestra de campañas: la misma información que en el marketplace. -->
-        <div class="relative" aria-hidden="true">
+        <div class="relative min-w-0" aria-hidden="true">
           <ul class="flex flex-col gap-3">
             @for (campaign of campaigns(); track campaign.id; let index = $index) {
               <li
@@ -141,13 +128,6 @@ export class LandingHero {
   readonly campaignCount = input(0);
   readonly affiliateCount = input(0);
   readonly averageConversionRate = input(0);
-
-  /** Monogramas de las primeras organizaciones, para el titular. */
-  protected readonly organizationMarks = computed(() =>
-    this.organizations()
-      .slice(0, 3)
-      .map((organization) => organization.initials),
-  );
 
   protected organizationName(campaign: Campaign): string {
     return this.organizations().find((item) => item.id === campaign.organizationId)?.name ?? '';

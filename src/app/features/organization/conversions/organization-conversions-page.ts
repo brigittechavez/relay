@@ -253,8 +253,7 @@ const NEXT_ACTIONS: Partial<
         }
 
         <p class="mt-4 text-ui-sm text-text-muted">
-          La atribución y el seguimiento son simulados en este proyecto. Las transiciones que haces
-          aquí sí modifican el estado y los balances de la demo.
+          La atribución es simulada, pero validar aquí sí mueve los balances.
         </p>
       }
     </div>

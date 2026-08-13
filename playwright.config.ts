@@ -7,9 +7,13 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env['CI'],
   retries: process.env['CI'] ? 2 : 0,
-  workers: process.env['CI'] ? 1 : undefined,
+  // Cuatro trabajadores y no «los que haya»: la aplicación se sirve en modo
+  // desarrollo y cada respuesta de la API simulada lleva latencia, así que
+  // saturar la máquina solo produce esperas que no dicen nada del producto.
+  workers: process.env['CI'] ? 1 : 4,
   reporter: process.env['CI'] ? 'github' : 'list',
   timeout: 45_000,
+  expect: { timeout: 10_000 },
   use: {
     baseURL: `http://localhost:${PORT}`,
     trace: 'on-first-retry',

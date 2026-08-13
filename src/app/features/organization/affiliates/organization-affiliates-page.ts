@@ -288,7 +288,7 @@ const NICHES = Object.keys(NICHE_LABELS) as NicheId[];
       </label>
 
       <p class="mt-4 text-ui-sm text-text-muted">
-        Las invitaciones son simuladas en este proyecto: no se envía ningún correo.
+        La invitación es simulada: no se envía ningún correo.
       </p>
 
       <button modalFooter rlyButton variant="ghost" (click)="inviting.set(null)">Cancelar</button>
