@@ -22,10 +22,17 @@ import { CatalogRepository } from '@data/repositories/catalog.repository';
 import { EngagementRepository } from '@data/repositories/engagement.repository';
 import {
   ATTRIBUTION_LABELS,
+  Campaign,
   CONVERSION_EVENT_LABELS,
   PRICE_UNIT_SUFFIX,
 } from '@data/models/campaign';
-import { TAG_LABELS, categoryLabel, channelLabel, subcategoryLabel } from '@data/models/taxonomy';
+import {
+  ACCESS_TAGS,
+  TAG_LABELS,
+  categoryLabel,
+  channelLabel,
+  subcategoryLabel,
+} from '@data/models/taxonomy';
 import { commissionDetail } from '@data/logic/commission';
 import { computeMatchScore, evaluateEligibility } from '@data/logic/matching';
 import { daysUntil } from '@data/seed/demo-clock';
@@ -98,7 +105,7 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
             [cover]="item.cover"
             [categoryId]="item.categoryId"
             [image]="item.image"
-            size="lg"
+            size="hero"
             priority
             class="rounded-lg"
           />
@@ -118,7 +125,7 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
             <div class="mt-4 flex flex-wrap items-center gap-2">
               <rly-access-badge [access]="item.access" />
               <rly-ending-badge [campaign]="item" />
-              @for (tag of item.tags; track tag) {
+              @for (tag of visibleTags(item); track tag) {
                 <rly-badge tone="neutral" outline>{{ tagLabel(tag) }}</rly-badge>
               }
             </div>
@@ -726,6 +733,11 @@ export class CampaignDetailPage {
 
   protected startApply(): void {
     this.launcher()?.open();
+  }
+
+  /** Etiquetas que aportan algo junto a la insignia de acceso. */
+  protected visibleTags(campaign: Campaign): readonly string[] {
+    return campaign.tags.filter((tag) => !ACCESS_TAGS.has(tag));
   }
 
   protected tagLabel(tag: string): string {

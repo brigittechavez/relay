@@ -9,7 +9,13 @@ import {
 import { CampaignImage } from '@data/models/campaign';
 import { CategoryId } from '@data/models/taxonomy';
 
-export type CoverSize = 'sm' | 'md' | 'lg';
+/**
+ * Proporción de la portada.
+ *
+ * `hero` es la de la ficha de campaña: a ancho completo, cualquier proporción
+ * más alta empujaría el título fuera de la primera pantalla.
+ */
+export type CoverSize = 'sm' | 'md' | 'lg' | 'hero';
 
 /**
  * Portada de campaña.
@@ -139,7 +145,12 @@ export class CampaignCover {
     [
       'relative block overflow-hidden',
       this.featured() ? 'bg-inverse' : 'bg-surface-muted',
-      { sm: 'aspect-[16/9]', md: 'aspect-[16/9]', lg: 'aspect-[21/9]' }[this.size()],
+      {
+        sm: 'aspect-[16/9]',
+        md: 'aspect-[16/9]',
+        lg: 'aspect-[21/9]',
+        hero: 'aspect-[32/9]',
+      }[this.size()],
     ].join(' '),
   );
 

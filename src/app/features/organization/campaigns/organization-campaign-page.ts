@@ -426,7 +426,7 @@ export class OrganizationCampaignPage {
 
     return [
       { label: 'Resumen', link: [...base, 'resumen'] },
-      { label: 'Aplicaciones', link: [...base, 'aplicaciones'], count: this.pendingApplications() },
+      { label: 'Solicitudes', link: [...base, 'aplicaciones'], count: this.pendingApplications() },
       { label: 'Afiliados', link: [...base, 'afiliados'] },
       { label: 'Conversiones', link: [...base, 'conversiones'], count: this.pendingConversions() },
       { label: 'Configuración', link: [...base, 'configuracion'] },

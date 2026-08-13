@@ -12,7 +12,7 @@ import { Badge } from '@ds/badge/badge';
 import { Icon } from '@ds/icon/icon';
 import { Campaign, PRICE_UNIT_SUFFIX } from '@data/models/campaign';
 import { Organization } from '@data/models/organization';
-import { TAG_LABELS, categoryLabel } from '@data/models/taxonomy';
+import { ACCESS_TAGS, TAG_LABELS, categoryLabel } from '@data/models/taxonomy';
 import { commissionLabel } from '@data/logic/commission';
 import { MoneyPipe } from '@shared/pipes/format.pipes';
 import { CampaignCover } from '../campaign-cover/campaign-cover';
@@ -166,7 +166,7 @@ export class CampaignCard {
   /** Dos etiquetas como máximo: la tarjeta ya lleva acceso y cierre. */
   protected readonly visibleTags = computed(() =>
     this.campaign()
-      .tags.filter((tag) => tag !== 'selectiva' && tag !== 'premium')
+      .tags.filter((tag) => !ACCESS_TAGS.has(tag))
       .slice(0, this.variant() === 'featured' ? 3 : 2),
   );
 

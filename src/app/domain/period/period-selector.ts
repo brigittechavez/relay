@@ -45,7 +45,9 @@ import { PeriodId, PERIODS } from '@data/models/common';
         (change)="onChange($event)"
       >
         @for (period of periods; track period.id) {
-          <option [value]="period.id">{{ period.label }}</option>
+          <option [value]="period.id" [selected]="period.id === selected()">
+            {{ period.label }}
+          </option>
         }
       </select>
     </label>

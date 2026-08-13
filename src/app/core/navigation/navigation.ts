@@ -31,7 +31,7 @@ export const AFFILIATE_NAV: readonly NavItem[] = [
   { label: 'Inicio', icon: 'home', link: '/app/affiliate/inicio' },
   { label: 'Marketplace', icon: 'marketplace', link: '/app/affiliate/marketplace' },
   { label: 'Campañas', icon: 'campaigns', link: '/app/affiliate/campanas' },
-  { label: 'Aplicaciones', icon: 'applications', link: '/app/affiliate/aplicaciones' },
+  { label: 'Solicitudes', icon: 'applications', link: '/app/affiliate/aplicaciones' },
   { label: 'Links', icon: 'link', link: '/app/affiliate/links' },
   { label: 'Ganancias', icon: 'earnings', link: '/app/affiliate/ganancias' },
   { label: 'Guardadas', icon: 'bookmark', link: '/app/affiliate/guardadas' },
@@ -55,9 +55,9 @@ export const AFFILIATE_MOBILE_NAV: readonly NavItem[] = [
 
 /** Barra lateral de organización. `:id` se sustituye por el slug activo. */
 export const ORGANIZATION_NAV: readonly NavItem[] = [
-  { label: 'Overview', icon: 'overview', link: '/app/organization/:id/overview' },
+  { label: 'Resumen', icon: 'overview', link: '/app/organization/:id/overview' },
   { label: 'Campañas', icon: 'campaigns', link: '/app/organization/:id/campanas' },
-  { label: 'Aplicaciones', icon: 'applications', link: '/app/organization/:id/aplicaciones' },
+  { label: 'Solicitudes', icon: 'applications', link: '/app/organization/:id/aplicaciones' },
   { label: 'Afiliados', icon: 'affiliates', link: '/app/organization/:id/afiliados' },
   { label: 'Conversiones', icon: 'conversions', link: '/app/organization/:id/conversiones' },
   { label: 'Comisiones', icon: 'commissions', link: '/app/organization/:id/comisiones' },
@@ -70,9 +70,9 @@ export const ORGANIZATION_SECONDARY_NAV: readonly NavItem[] = [
 ];
 
 export const ORGANIZATION_MOBILE_NAV: readonly NavItem[] = [
-  { label: 'Overview', icon: 'overview', link: '/app/organization/:id/overview' },
+  { label: 'Resumen', icon: 'overview', link: '/app/organization/:id/overview' },
   { label: 'Campañas', icon: 'campaigns', link: '/app/organization/:id/campanas' },
-  { label: 'Aplicaciones', icon: 'applications', link: '/app/organization/:id/aplicaciones' },
+  { label: 'Solicitudes', icon: 'applications', link: '/app/organization/:id/aplicaciones' },
   { label: 'Comisiones', icon: 'commissions', link: '/app/organization/:id/comisiones' },
 ];
 

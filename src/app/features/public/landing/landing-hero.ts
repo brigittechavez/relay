@@ -43,10 +43,10 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
             <span class="inline-flex translate-y-1 items-center -space-x-2 align-middle" aria-hidden="true">
               @for (initials of organizationMarks(); track initials) {
                 <span
-                  class="grid size-[0.85em] place-items-center rounded-full border-2
-                         border-inverse bg-surface text-[0.3em] font-semibold text-ink"
+                  class="grid size-[0.68em] shrink-0 place-items-center rounded-full border-2
+                         border-inverse bg-surface text-ink"
                 >
-                  {{ initials }}
+                  <span class="text-[0.26em] font-semibold leading-none">{{ initials }}</span>
                 </span>
               }
             </span>
@@ -70,26 +70,29 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
             </a>
           </div>
 
-          <dl class="mt-12 grid max-w-lg grid-cols-2 gap-x-6 gap-y-6 sm:grid-cols-4">
-            <div>
+          <dl
+            class="mt-12 grid max-w-lg grid-cols-2 grid-rows-[auto_auto] gap-x-6 gap-y-6
+                   sm:grid-cols-4"
+          >
+            <div class="row-span-2 grid grid-rows-subgrid">
               <dt class="text-ui-sm text-text-inverse-secondary">Campañas</dt>
               <dd class="mt-1 text-title-sm tabular-nums text-text-inverse">
                 {{ campaignCount() | rlyNumber }}
               </dd>
             </div>
-            <div>
+            <div class="row-span-2 grid grid-rows-subgrid">
               <dt class="text-ui-sm text-text-inverse-secondary">Afiliados</dt>
               <dd class="mt-1 text-title-sm tabular-nums text-text-inverse">
                 {{ affiliateCount() | rlyCompact }}
               </dd>
             </div>
-            <div>
+            <div class="row-span-2 grid grid-rows-subgrid">
               <dt class="text-ui-sm text-text-inverse-secondary">Conversión media</dt>
               <dd class="mt-1 text-title-sm tabular-nums text-text-inverse">
                 {{ averageConversionRate() | rlyPercent: 2 }}
               </dd>
             </div>
-            <div>
+            <div class="row-span-2 grid grid-rows-subgrid">
               <dt class="text-ui-sm text-text-inverse-secondary">Categorías</dt>
               <dd class="mt-1 text-title-sm tabular-nums text-text-inverse">8</dd>
             </div>

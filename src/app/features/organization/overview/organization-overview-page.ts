@@ -97,10 +97,16 @@ import { MoneyPipe, NumberPipe, RelativeDatePipe } from '@shared/pipes/format.pi
             [delta]="conversionsDelta()"
             [caption]="window().comparison"
           />
-          <rly-kpi-card label="Afiliados activos" [value]="activeAffiliates() | rlyNumber" />
+          <rly-kpi-card
+            label="Afiliados activos"
+            [value]="activeAffiliates() | rlyNumber"
+            caption="Acumulado, no del periodo"
+            hint="Afiliados con al menos una campaña activa contigo ahora mismo."
+          />
           <rly-kpi-card
             label="Comisiones pendientes"
             [value]="pendingCommission() | rlyMoney"
+            caption="Saldo actual"
             inverted
             hint="Comisiones aprobadas o programadas que todavía no se han pagado."
           />
@@ -130,7 +136,12 @@ import { MoneyPipe, NumberPipe, RelativeDatePipe } from '@shared/pipes/format.pi
           <!-- Campañas -->
           <section aria-labelledby="campanas">
             <div class="flex items-baseline justify-between gap-3">
-              <h3 id="campanas" class="text-title-xs text-ink">Campañas</h3>
+              <div>
+                <h3 id="campanas" class="text-title-xs text-ink">Campañas</h3>
+                <!-- Las cifras por campaña son de toda su vida, no del periodo
+                     elegido arriba: sin decirlo, no cuadran con los KPIs. -->
+                <p class="mt-0.5 text-ui-sm text-text-muted">Cifras acumuladas por campaña</p>
+              </div>
               <a
                 [routerLink]="['/app/organization', organizationId(), 'campanas']"
                 class="focus-ring rounded-xs text-ui-sm text-text-secondary hover:text-ink"

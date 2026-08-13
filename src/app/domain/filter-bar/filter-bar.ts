@@ -68,7 +68,9 @@ export interface SortOption {
               (change)="onSort($event)"
             >
               @for (option of sortOptions(); track option.id) {
-                <option [value]="option.id">{{ option.label }}</option>
+                <option [value]="option.id" [selected]="option.id === sort()">
+                  {{ option.label }}
+                </option>
               }
             </select>
           </rly-select>

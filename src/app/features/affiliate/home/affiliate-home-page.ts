@@ -119,12 +119,14 @@ import {
           <rly-kpi-card
             label="Clics"
             [value]="clicks() | rlyNumber"
-            hint="Acumulado de todos tus links activos. El seguimiento es simulado."
+            caption="Acumulado de tus links"
+            hint="Suma de todos tus links activos, sin recortar por periodo. El seguimiento es simulado."
           />
           <rly-kpi-card
             label="Tasa de conversión"
             [value]="conversionRateValue() | rlyPercent: 2"
-            hint="Conversiones entre clics de todos tus links."
+            caption="Acumulado de tus links"
+            hint="Conversiones del periodo entre los clics acumulados de tus links."
           />
         </div>
       }

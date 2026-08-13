@@ -255,7 +255,7 @@ export class CampaignSettingsPage {
 
     return [
       { label: 'Resumen', link: [...base, 'resumen'] },
-      { label: 'Aplicaciones', link: [...base, 'aplicaciones'] },
+      { label: 'Solicitudes', link: [...base, 'aplicaciones'] },
       { label: 'Afiliados', link: [...base, 'afiliados'] },
       { label: 'Conversiones', link: [...base, 'conversiones'] },
       { label: 'Configuración', link: [...base, 'configuracion'] },

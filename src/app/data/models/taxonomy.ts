@@ -120,6 +120,19 @@ export type TagId =
   | 'selectiva'
   | 'premium';
 
+/**
+ * Etiquetas que duplican la insignia de acceso.
+ *
+ * Existen en la taxonomía porque son un criterio de filtrado legítimo, pero no
+ * deben pintarse junto a la insignia: dejarían la misma palabra dos veces en la
+ * misma fila.
+ */
+export const ACCESS_TAGS: ReadonlySet<string> = new Set([
+  'aceptacion-inmediata',
+  'selectiva',
+  'premium',
+]);
+
 export const TAG_LABELS: Record<TagId, string> = {
   'alta-comision': 'Alta comisión',
   recurrente: 'Recurrente',

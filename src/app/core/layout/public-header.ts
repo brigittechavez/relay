@@ -29,7 +29,7 @@ import { PUBLIC_NAV } from '../navigation/navigation';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, RouterLinkActive, Button, Icon, Logo],
   host: {
-    class: 'sticky top-0 block',
+    '[class]': 'hostClasses()',
     style: 'z-index: var(--rly-z-header)',
     '(window:scroll)': 'onScroll()',
   },
@@ -131,6 +131,16 @@ export class PublicHeader {
   /** La cabecera se comporta como oscura solo mientras cubre el hero. */
   protected readonly isOverHero = computed(
     () => this.overHero() && !this.scrolled() && !this.menuOpen(),
+  );
+
+  /**
+   * Sobre el hero la cabecera se saca del flujo para que el bloque Ink llegue
+   * al borde superior de la ventana; el hero ya reserva el espacio con su
+   * propio relleno. En el resto de páginas se queda pegajosa en el flujo, que
+   * es lo que hace que empuje el contenido en lugar de taparlo.
+   */
+  protected readonly hostClasses = computed(() =>
+    this.overHero() ? 'fixed inset-x-0 top-0 block' : 'sticky top-0 block',
   );
 
   protected readonly barClasses = computed(() =>
