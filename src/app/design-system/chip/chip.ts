@@ -21,7 +21,9 @@ import { IconName } from '../icon/icon-registry.generated';
   selector: 'rly-chip',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon],
-  host: { class: 'inline-flex' },
+  // `shrink-0`: en una fila con desplazamiento horizontal, un chip que se
+  // encoge parte su etiqueta en dos líneas y la recorta contra su altura fija.
+  host: { class: 'inline-flex shrink-0' },
   template: `
     <button
       type="button"
@@ -76,7 +78,8 @@ export class Chip {
 
   protected readonly classes = computed(() =>
     [
-      'focus-ring inline-flex h-8 items-center gap-1.5 border px-3 text-ui-sm font-medium',
+      'focus-ring inline-flex h-8 items-center gap-1.5 whitespace-nowrap border px-3 text-ui-sm',
+      'font-medium',
       'transition-colors duration-micro ease-standard disabled:pointer-events-none',
       'disabled:opacity-45',
       this.removable() ? 'rounded-l-full' : 'rounded-full',
