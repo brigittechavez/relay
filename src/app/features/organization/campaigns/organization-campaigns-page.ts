@@ -115,6 +115,7 @@ type Filter = 'all' | CampaignStatus;
                 <rly-campaign-cover
                   [cover]="row.campaign.cover"
                   [categoryId]="row.campaign.categoryId"
+                  [image]="row.campaign.image"
                   class="hidden w-32 shrink-0 sm:block"
                 />
 

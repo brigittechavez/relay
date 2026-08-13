@@ -69,6 +69,7 @@ const CTA: Record<CampaignRelation, string> = {
         <rly-campaign-cover
           [cover]="campaign().cover"
           [categoryId]="campaign().categoryId"
+          [image]="campaign().image"
           [featured]="variant() === 'featured'"
           [size]="variant() === 'featured' ? 'lg' : 'md'"
           [label]="organization()?.initials ?? ''"

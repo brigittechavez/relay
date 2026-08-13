@@ -19,6 +19,7 @@
     "tokens": "node scripts/build-tokens.mjs",
     "icons": "node scripts/build-icons.mjs",
     "seo": "node scripts/build-seo-files.mjs",
+    "og": "node scripts/build-og-image.mjs",
     "storybook": "ng run relay:storybook",
     "build-storybook": "ng run relay:build-storybook",
     "serve:ssr": "node dist/relay/server/server.mjs",

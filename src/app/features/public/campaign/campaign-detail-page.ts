@@ -97,7 +97,9 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
           <rly-campaign-cover
             [cover]="item.cover"
             [categoryId]="item.categoryId"
+            [image]="item.image"
             size="lg"
+            priority
             class="rounded-lg"
           />
         </div>
@@ -545,6 +547,7 @@ export class CampaignDetailPage {
         description: campaign.summary,
         path: `/campanas/${campaign.slug}`,
         type: 'article',
+        image: campaign.image,
         structuredData: {
           '@context': 'https://schema.org',
           '@type': 'Offer',

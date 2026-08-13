@@ -68,6 +68,18 @@ export interface CampaignResource {
   readonly format?: string;
 }
 
+/**
+ * Imagen de campaña.
+ *
+ * `src` apunta a un archivo servido desde `public/`. El alt es obligatorio:
+ * describe lo que se ve, no repite el nombre de la campaña.
+ */
+export interface CampaignImage {
+  readonly src: string;
+  /** Descripción de lo que muestra la imagen, no el nombre de la campaña. */
+  readonly alt: string;
+}
+
 export interface CampaignDuration {
   readonly type: 'evergreen' | 'scheduled';
   readonly startsAt?: IsoDate;
@@ -130,8 +142,16 @@ export interface Campaign {
   readonly goal: CampaignGoal;
   readonly metrics: CampaignMetrics;
 
-  /** Identificador del placeholder visual hasta que haya imagen definitiva. */
+  /** Identificador del placeholder visual, usado mientras no haya imagen. */
   readonly cover: string;
+
+  /**
+   * Imagen definitiva de la campaña.
+   *
+   * Mientras no exista, la portada se dibuja con el placeholder geométrico, que
+   * ocupa exactamente la misma proporción: añadir la imagen no mueve nada.
+   */
+  readonly image?: CampaignImage;
 
   readonly createdAt: IsoDate;
   readonly publishedAt?: IsoDate;

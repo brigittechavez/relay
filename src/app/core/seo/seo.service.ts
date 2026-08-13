@@ -9,10 +9,21 @@ export interface SeoMetadata {
   readonly type?: 'website' | 'article' | 'profile';
   /** Datos estructurados, solo donde aporten a un resultado de búsqueda. */
   readonly structuredData?: Record<string, unknown>;
+  /** Imagen de compartición propia de la página, si la hay. */
+  readonly image?: { readonly src: string; readonly alt: string };
 }
 
 /** Dominio canónico del proyecto publicado. */
 const ORIGIN = 'https://relay-marketplace.netlify.app';
+
+/**
+ * Imagen de compartición por defecto: la tarjeta de marca generada con
+ * `npm run og`. Las páginas que tengan una imagen propia la sustituyen.
+ */
+const DEFAULT_IMAGE = {
+  src: '/og-cover.png',
+  alt: 'RELAY · marketplace de marketing de afiliados',
+};
 
 const DEFAULT_DESCRIPTION =
   'RELAY conecta empresas y profesionales con afiliados que ya tienen la audiencia adecuada. ' +
@@ -34,6 +45,8 @@ export class SeoService {
   apply(metadata: SeoMetadata): void {
     const description = metadata.description ?? DEFAULT_DESCRIPTION;
     const url = `${ORIGIN}${metadata.path ?? ''}`;
+    const image = metadata.image ?? DEFAULT_IMAGE;
+    const imageUrl = image.src.startsWith('http') ? image.src : `${ORIGIN}${image.src}`;
 
     this.title.setTitle(metadata.title);
 
@@ -44,7 +57,10 @@ export class SeoService {
     this.meta.updateTag({ property: 'og:url', content: url });
     this.meta.updateTag({ property: 'og:site_name', content: 'RELAY' });
     this.meta.updateTag({ property: 'og:locale', content: 'es_PE' });
+    this.meta.updateTag({ property: 'og:image', content: imageUrl });
+    this.meta.updateTag({ property: 'og:image:alt', content: image.alt });
     this.meta.updateTag({ name: 'twitter:card', content: 'summary_large_image' });
+    this.meta.updateTag({ name: 'twitter:image', content: imageUrl });
     this.meta.updateTag({ name: 'twitter:title', content: metadata.title });
     this.meta.updateTag({ name: 'twitter:description', content: description });
 

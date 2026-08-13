@@ -109,6 +109,7 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
                   <rly-campaign-cover
                     [cover]="campaign.cover"
                     [categoryId]="campaign.categoryId"
+                    [image]="campaign.image"
                     featured
                     class="w-24 shrink-0 sm:w-32"
                   />
