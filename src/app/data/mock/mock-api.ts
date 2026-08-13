@@ -4,7 +4,7 @@ import {
   HttpInterceptorFn,
   HttpResponse,
 } from '@angular/common/http';
-import { inject, PLATFORM_ID } from '@angular/core';
+import { inject, makeStateKey, PLATFORM_ID, StateKey, TransferState } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { delay, Observable, of, throwError } from 'rxjs';
 
@@ -24,6 +24,17 @@ import { matchRoute, MockRoute, toHttpError } from './router';
 const LATENCY_MS = 180;
 
 /**
+ * Clave de transferencia para una petición.
+ *
+ * Se incluye el método porque dos verbos sobre la misma ruta no devuelven lo
+ * mismo, y la URL con parámetros porque los filtros forman parte de la
+ * respuesta.
+ */
+function stateKeyFor(method: string, url: string): StateKey<unknown> {
+  return makeStateKey<unknown>(`rly-api:${method}:${url}`);
+}
+
+/**
  * Transporte REST simulado.
  *
  * Intercepta las peticiones a `/api/**` y las resuelve contra el estado local
@@ -38,7 +49,28 @@ export const mockApiInterceptor: HttpInterceptorFn = (request, next) => {
 
   const store = inject(DemoStore);
   const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  const transferState = inject(TransferState);
   const routes = buildRoutes(store);
+
+  const stateKey = stateKeyFor(request.method, request.urlWithParams);
+
+  /**
+   * Respuesta calculada durante el prerender.
+   *
+   * Sin esto, al hidratar una página prerenderizada el recurso vuelve a pedir
+   * los datos, la plantilla pasa por su estado de carga y el contenido que ya
+   * estaba en pantalla se sustituye por un esqueleto más corto: el pie sube y
+   * vuelve a bajar. El HTML servido deja de valer para lo único que debería
+   * garantizar, que es que no haya salto.
+   *
+   * Solo se aprovecha la primera vez; a partir de ahí manda el estado local,
+   * que es el que cambia cuando alguien usa la demo.
+   */
+  if (isBrowser && transferState.hasKey(stateKey)) {
+    const body = transferState.get(stateKey, null);
+    transferState.remove(stateKey);
+    return of(new HttpResponse({ status: 200, body, url: request.url }));
+  }
 
   // `urlWithParams` y no `url`: HttpClient guarda los parámetros de consulta
   // aparte y solo los serializa al enviar, de modo que leer `url` dejaría
@@ -67,6 +99,12 @@ export const mockApiInterceptor: HttpInterceptorFn = (request, next) => {
       query: url.searchParams,
       body: request.body,
     });
+
+    // Solo las lecturas viajan al cliente: una escritura durante el prerender
+    // no existe, y guardarla induciría a repetirla.
+    if (!isBrowser && request.method === 'GET') {
+      transferState.set(stateKey, body as never);
+    }
 
     response = of(new HttpResponse({ status: 200, body, url: request.url }));
   } catch (error) {

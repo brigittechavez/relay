@@ -1,7 +1,9 @@
-# Netlify deployment for RELAY.
-# The Angular application is built with `outputMode: server`, so the SSR entry
-# point is adapted as a Netlify function and the prerendered/static output is
-# published from the browser bundle.
+# Despliegue de RELAY en Netlify.
+#
+# La compilación genera HTML prerenderizado para todo el área pública, así que
+# el sitio se publica como estático desde `dist/relay/browser`. No hay función
+# de servidor: nada del producto la necesita, porque el área privada depende del
+# estado del navegador y la API es un interceptor de Angular.
 
 [build]
   command = "npm run build"
@@ -10,6 +12,26 @@
 [build.environment]
   NODE_VERSION = "22"
   NPM_FLAGS = "--legacy-peer-deps=false"
+
+# El área privada se renderiza en cliente: no hay archivo para cada ruta, así
+# que se sirve el shell CSR que produce la propia compilación.
+[[redirects]]
+  from = "/app/*"
+  to = "/index.csr.html"
+  status = 200
+
+[[redirects]]
+  from = "/onboarding"
+  to = "/index.csr.html"
+  status = 200
+
+# Cualquier otra ruta desconocida devuelve la página de error prerenderizada,
+# con su código correcto: un 200 en una URL inexistente confunde a los
+# rastreadores tanto como a las personas.
+[[redirects]]
+  from = "/*"
+  to = "/404/index.html"
+  status = 404
 
 [[headers]]
   for = "/*"
