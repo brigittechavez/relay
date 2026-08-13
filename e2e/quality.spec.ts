@@ -103,9 +103,10 @@ test.describe('Área autenticada', () => {
 
     await expect(page.getByRole('heading', { name: /hola, lucía/i })).toBeVisible();
 
-    // El gráfico se carga con @defer al entrar en el viewport.
-    await page.getByText('¿Cómo evolucionan mis comisiones?').scrollIntoViewIfNeeded();
-    await expect(page.locator('canvas')).toBeVisible();
+    // El gráfico se carga con @defer al entrar en el viewport, así que hay que
+    // llevarlo ahí de verdad y darle margen para importar Chart.js.
+    await page.locator('rly-analytics-card').first().scrollIntoViewIfNeeded();
+    await expect(page.locator('canvas')).toBeVisible({ timeout: 15_000 });
 
     expect(problems, 'Consola sucia en el panel del afiliado').toEqual([]);
   });
@@ -125,8 +126,16 @@ test.describe('Área autenticada', () => {
     await expect(modal).toBeVisible();
     await modal.getByRole('button', { name: /^restablecer$/i }).click();
 
-    // Vuelve a la portada y la sesión se cierra.
+    // Vuelve a la portada y la sesión desaparece del almacenamiento. Se
+    // comprueba así y no por un enlace de la cabecera, que en móvil vive
+    // dentro del menú plegado.
     await expect(page).toHaveURL(/\/$/);
-    await expect(page.getByRole('link', { name: /iniciar sesión/i }).first()).toBeVisible();
+
+    const session = await page.evaluate(() => {
+      const raw = window.localStorage.getItem('relay:demo');
+      return raw ? ((JSON.parse(raw) as { session: unknown }).session ?? null) : null;
+    });
+
+    expect(session).toBeNull();
   });
 });
