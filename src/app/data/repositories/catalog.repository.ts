@@ -39,6 +39,10 @@ export class CatalogRepository {
     return this.http.get<Organization[]>('/api/organizations');
   }
 
+  createOrganization(draft: Partial<Organization>): Observable<Organization> {
+    return this.http.post<Organization>('/api/organizations', draft);
+  }
+
   organization(slug: string): Observable<Organization> {
     return this.http.get<Organization>(`/api/organizations/${slug}`);
   }

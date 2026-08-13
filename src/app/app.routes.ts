@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { PublicShell } from '@core/layout/public-shell';
+import { requireDemoSession, requirePendingOnboarding } from '@core/session/demo.guards';
 
 /**
  * Rutas de RELAY.
@@ -14,6 +15,26 @@ import { PublicShell } from '@core/layout/public-shell';
  * los metadatos en la fase de SEO.
  */
 export const routes: Routes = [
+  {
+    path: 'onboarding',
+    canActivate: [requirePendingOnboarding],
+    loadComponent: () =>
+      import('@features/onboarding/onboarding-page').then((m) => m.OnboardingPage),
+    data: { title: 'Configura tu cuenta · RELAY' },
+  },
+  {
+    path: 'app/affiliate',
+    canActivate: [requireDemoSession],
+    loadChildren: () =>
+      import('@features/affiliate/affiliate.routes').then((m) => m.affiliateRoutes),
+  },
+  {
+    path: 'app/organization',
+    canActivate: [requireDemoSession],
+    loadChildren: () =>
+      import('@features/organization/organization.routes').then((m) => m.organizationRoutes),
+  },
+  { path: 'app', pathMatch: 'full', redirectTo: 'app/affiliate/inicio' },
   {
     path: '',
     component: PublicShell,

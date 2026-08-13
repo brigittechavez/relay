@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 import { Button } from '@ds/button/button';
 import { Field } from '@ds/field/field';
@@ -172,6 +172,7 @@ import { SavedStore } from '@core/session/saved.store';
   `,
 })
 export class LoginPage {
+  private readonly route = inject(ActivatedRoute);
   private readonly session = inject(SessionStore);
   private readonly saved = inject(SavedStore);
   private readonly router = inject(Router);
@@ -203,11 +204,14 @@ export class LoginPage {
       this.saved.invalidate();
       await this.saved.load();
 
-      await this.router.navigateByUrl(
+      // Si se llegó aquí desde una ruta protegida, se retoma ese destino.
+      const intended = this.route.snapshot.queryParamMap.get('destino');
+      const fallback =
         as === 'affiliate'
           ? '/app/affiliate/inicio'
-          : `/app/organization/${session.organizationIds[0]}/overview`,
-      );
+          : `/app/organization/${session.organizationIds[0]}/overview`;
+
+      await this.router.navigateByUrl(intended ?? fallback);
     } catch {
       this.toasts.error('No se pudo iniciar la demo');
     } finally {

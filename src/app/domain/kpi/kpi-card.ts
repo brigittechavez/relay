@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import {
+  booleanAttribute,
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  input,
+} from '@angular/core';
 
 import { Icon } from '@ds/icon/icon';
 import { Tooltip } from '@ds/tooltip/tooltip';
@@ -69,7 +75,7 @@ export class KpiCard {
    * Invierte la lectura de la variación. En «comisiones pendientes» o
    * «solicitudes por revisar», subir no es una buena noticia.
    */
-  readonly inverted = input(false);
+  readonly inverted = input(false, { transform: booleanAttribute });
 
   protected readonly isUp = computed(() => (this.delta() ?? 0) >= 0);
 

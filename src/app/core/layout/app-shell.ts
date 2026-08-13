@@ -22,6 +22,7 @@ import { Tooltip } from '@ds/tooltip/tooltip';
 import { NavItem } from '../navigation/navigation';
 import { AppBottomNav } from './app-bottom-nav';
 import { AppSidebar } from './app-sidebar';
+import { DemoControls } from '../session/demo-controls';
 import { WorkspaceSwitcher } from './workspace-switcher';
 
 const SIDEBAR_STORAGE_KEY = 'relay:sidebar-collapsed';
@@ -42,6 +43,7 @@ const SIDEBAR_STORAGE_KEY = 'relay:sidebar-collapsed';
     AppSidebar,
     AppBottomNav,
     WorkspaceSwitcher,
+    DemoControls,
     Badge,
     Button,
     Drawer,
@@ -147,6 +149,7 @@ const SIDEBAR_STORAGE_KEY = 'relay:sidebar-collapsed';
         [secondaryItems]="secondaryNavItems()"
         ariaLabel="Más destinos"
       />
+      <rly-demo-controls class="mt-4" />
     </rly-drawer>
 
     <rly-toast-host />

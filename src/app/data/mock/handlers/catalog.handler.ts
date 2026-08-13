@@ -48,6 +48,11 @@ export function catalogRoutes(store: DemoStore): MockRoute[] {
         notFound('Organización'),
     },
     {
+      method: 'POST',
+      pattern: '/api/organizations',
+      handle: (r) => store.write((db) => createOrganization(db, r.body as Partial<Organization>)),
+    },
+    {
       method: 'PATCH',
       pattern: '/api/organizations/:id',
       handle: (r) =>
@@ -293,6 +298,69 @@ function findCampaign(database: DemoDatabase, slug: string): Campaign {
 
 function findAffiliate(database: DemoDatabase, id: string | null): Affiliate | null {
   return id ? (database.affiliates.find((affiliate) => affiliate.id === id) ?? null) : null;
+}
+
+/**
+ * Alta de organización desde el onboarding.
+ *
+ * Nace sin métricas ni señales de confianza: son datos que se ganan operando,
+ * y regalarlos vaciaría de significado el perfil público del resto.
+ */
+function createOrganization(database: DemoDatabase, draft: Partial<Organization>): Organization {
+  const slug = slugify(draft.name ?? 'organizacion', database);
+
+  const organization: Organization = {
+    id: slug,
+    slug,
+    name: draft.name ?? 'Nueva organización',
+    initials: initialsOf(draft.name ?? 'NO'),
+    kind: draft.kind ?? 'company',
+    categoryId: draft.categoryId ?? 'servicios',
+    tagline: draft.tagline ?? '',
+    description: draft.description ?? '',
+    location: draft.location ?? 'Lima, Perú',
+    country: draft.country ?? 'PE',
+    website: draft.website ?? '',
+    plan: 'starter',
+    trustSignals: [],
+    metrics: {
+      activeAffiliates: 0,
+      averageReviewDays: 0,
+      approvalRate: 0,
+      completedCampaigns: 0,
+    },
+    team: [],
+    createdAt: demoDate(0),
+  };
+
+  database.organizations = [organization, ...database.organizations];
+  return organization;
+}
+
+function slugify(value: string, database: DemoDatabase): string {
+  const base =
+    value
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[̀-ͯ]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-|-$/g, '')
+      .slice(0, 40) || 'organizacion';
+
+  const taken = new Set(database.organizations.map((item) => item.slug));
+  if (!taken.has(base)) return base;
+
+  let suffix = 2;
+  while (taken.has(`${base}-${suffix}`)) suffix++;
+  return `${base}-${suffix}`;
+}
+
+function initialsOf(name: string): string {
+  return name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? '')
+    .join('');
 }
 
 function createCampaign(database: DemoDatabase, draft: Partial<Campaign>): Campaign {

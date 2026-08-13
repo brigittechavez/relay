@@ -46,5 +46,10 @@ export const serverRoutes: ServerRoute[] = [
       ORGANIZATIONS.map((organization) => ({ slug: organization.slug })),
   },
 
+  // Área privada: depende del estado local del navegador y no aporta nada
+  // renderizada en servidor.
+  { path: 'onboarding', renderMode: RenderMode.Client },
+  { path: 'app/**', renderMode: RenderMode.Client },
+
   { path: '**', renderMode: RenderMode.Server },
 ];

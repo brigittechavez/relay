@@ -13,7 +13,7 @@ import { MoneyPipe, NumberPipe } from '@shared/pipes/format.pipes';
 @Component({
   selector: 'rly-goal-progress',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, MoneyPipe, NumberPipe],
+  imports: [Icon],
   host: { class: 'block' },
   template: `
     <div class="flex items-start justify-between gap-3">
