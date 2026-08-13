@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
@@ -10,14 +10,14 @@ import { CatalogRepository } from '@data/repositories/catalog.repository';
 import { EngagementRepository } from '@data/repositories/engagement.repository';
 import { PENDING_REVIEW } from '@data/models/application';
 import { dailySeries, delta, previousWindow, totals, withinDays } from '@data/logic/analytics';
+import { PeriodId, PERIODS } from '@data/models/common';
 import { AnalyticsCard } from '@domain/analytics-card/analytics-card';
 import { TrendChart } from '@domain/chart/trend-chart';
 import { KpiCard } from '@domain/kpi/kpi-card';
+import { PeriodSelector, periodWindow } from '@domain/period/period-selector';
 import { MatchScore } from '@domain/match-score/match-score';
 import { ApplicationStatusBadge, CampaignStatusBadge } from '@domain/status/status-badges';
 import { MoneyPipe, NumberPipe, RelativeDatePipe } from '@shared/pipes/format.pipes';
-
-const WINDOW_DAYS = 30;
 
 /**
  * Overview de la organización.
@@ -38,6 +38,7 @@ const WINDOW_DAYS = 30;
     AnalyticsCard,
     TrendChart,
     KpiCard,
+    PeriodSelector,
     MatchScore,
     ApplicationStatusBadge,
     CampaignStatusBadge,
@@ -51,19 +52,25 @@ const WINDOW_DAYS = 30;
       <header class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 class="text-title-md text-ink">{{ organization.value()?.name ?? 'Overview' }}</h2>
-          <p class="mt-1 text-ui text-text-secondary">
-            Resumen de los últimos {{ windowDays }} días
-          </p>
+          <p class="mt-1 text-ui text-text-secondary">{{ periodCaption() }}</p>
         </div>
 
-        <a
-          rlyButton
-          variant="primary"
-          [routerLink]="['/app/organization', organizationId(), 'campanas', 'nueva']"
-        >
-          <rly-icon name="plus" [size]="16" />
-          Crear campaña
-        </a>
+        <div class="flex flex-wrap items-center gap-3">
+          <rly-period-selector
+            [selected]="period()"
+            ariaLabel="Periodo del resumen"
+            (selectedChange)="period.set($event)"
+          />
+
+          <a
+            rlyButton
+            variant="primary"
+            [routerLink]="['/app/organization', organizationId(), 'campanas', 'nueva']"
+          >
+            <rly-icon name="plus" [size]="16" />
+            Crear campaña
+          </a>
+        </div>
       </header>
 
       @if (loading()) {
@@ -81,14 +88,14 @@ const WINDOW_DAYS = 30;
             label="Revenue atribuido"
             [value]="summary().revenue | rlyMoney"
             [delta]="revenueDelta()"
-            caption="vs. 30 días anteriores"
+            [caption]="window().comparison"
             hint="Valor de las conversiones atribuidas a afiliados, antes de comisiones."
           />
           <rly-kpi-card
             label="Conversiones"
             [value]="summary().conversions | rlyNumber"
             [delta]="conversionsDelta()"
-            caption="vs. 30 días anteriores"
+            [caption]="window().comparison"
           />
           <rly-kpi-card label="Afiliados activos" [value]="activeAffiliates() | rlyNumber" />
           <rly-kpi-card
@@ -104,7 +111,7 @@ const WINDOW_DAYS = 30;
         <div class="flex min-w-0 flex-col gap-6">
           <rly-analytics-card
             title="¿Cómo evoluciona el revenue atribuido?"
-            description="Valor de las conversiones registradas por día."
+            [description]="chartCaption()"
           >
             @defer (on viewport) {
               <rly-trend-chart
@@ -317,7 +324,20 @@ export class OrganizationOverviewPage {
   private readonly catalog = inject(CatalogRepository);
   private readonly engagement = inject(EngagementRepository);
 
-  protected readonly windowDays = WINDOW_DAYS;
+  /** Periodo del resumen. Todo el panel se recalcula a partir de él. */
+  protected readonly period = signal<PeriodId>('30d');
+
+  protected readonly window = computed(() => periodWindow(this.period()));
+
+  protected readonly periodCaption = computed(() => {
+    const label = PERIODS.find((item) => item.id === this.period())?.label ?? '30 días';
+    return `Resumen de ${label.toLowerCase()}`;
+  });
+
+  protected readonly chartCaption = computed(
+    () =>
+      `Valor de las conversiones por día · ${PERIODS.find((item) => item.id === this.period())?.label}`,
+  );
 
   readonly organizationId = input.required<string>();
 
@@ -362,13 +382,13 @@ export class OrganizationOverviewPage {
   // --- Métricas -------------------------------------------------------------
 
   private readonly windowConversions = computed(() =>
-    withinDays(this.conversions.value(), WINDOW_DAYS),
+    withinDays(this.conversions.value(), this.window().days, this.window().offset),
   );
 
   protected readonly summary = computed(() => totals(this.windowConversions()));
 
   private readonly previousSummary = computed(() =>
-    totals(previousWindow(this.conversions.value(), WINDOW_DAYS)),
+    totals(previousWindow(this.conversions.value(), this.window().days, this.window().offset)),
   );
 
   protected readonly revenueDelta = computed(() =>
@@ -380,7 +400,7 @@ export class OrganizationOverviewPage {
   );
 
   protected readonly series = computed(() =>
-    dailySeries(this.windowConversions(), WINDOW_DAYS, 'value'),
+    dailySeries(this.windowConversions(), this.window().days, 'value', this.window().offset),
   );
 
   protected readonly activeAffiliates = computed(

@@ -28,6 +28,7 @@ import {
       [mobileNavItems]="mobileNav"
       navLabel="Navegación de afiliado"
       notificationsLink="/app/affiliate/notificaciones"
+      notificationsAudience="affiliate"
       [title]="title()"
     />
   `,

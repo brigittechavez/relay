@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
@@ -20,11 +20,13 @@ import {
   totals,
   withinDays,
 } from '@data/logic/analytics';
+import { PeriodId, PERIODS } from '@data/models/common';
 import { computeMatchScore, evaluateEligibility } from '@data/logic/matching';
 import { AnalyticsCard } from '@domain/analytics-card/analytics-card';
 import { CampaignCard } from '@domain/campaign-card/campaign-card';
 import { TrendChart } from '@domain/chart/trend-chart';
 import { KpiCard } from '@domain/kpi/kpi-card';
+import { PeriodSelector, periodWindow } from '@domain/period/period-selector';
 import { RelayScore } from '@domain/relay-score/relay-score';
 import { ApplicationStatusBadge } from '@domain/status/status-badges';
 import {
@@ -34,8 +36,6 @@ import {
   PercentPipe,
   RelativeDatePipe,
 } from '@shared/pipes/format.pipes';
-
-const WINDOW_DAYS = 30;
 
 /**
  * Inicio del afiliado.
@@ -58,6 +58,7 @@ const WINDOW_DAYS = 30;
     CampaignCard,
     TrendChart,
     KpiCard,
+    PeriodSelector,
     RelayScore,
     ApplicationStatusBadge,
     CompactPipe,
@@ -72,15 +73,21 @@ const WINDOW_DAYS = 30;
       <header class="flex flex-wrap items-end justify-between gap-4">
         <div>
           <h2 class="text-title-md text-ink">Hola, {{ firstName() }}</h2>
-          <p class="mt-1 text-ui text-text-secondary">
-            Resumen de los últimos {{ windowDays }} días
-          </p>
+          <p class="mt-1 text-ui text-text-secondary">{{ periodCaption() }}</p>
         </div>
 
-        <a rlyButton variant="primary" routerLink="/app/affiliate/marketplace">
-          <rly-icon name="marketplace" [size]="16" />
-          Buscar campañas
-        </a>
+        <div class="flex flex-wrap items-center gap-3">
+          <rly-period-selector
+            [selected]="period()"
+            ariaLabel="Periodo del resumen"
+            (selectedChange)="period.set($event)"
+          />
+
+          <a rlyButton variant="primary" routerLink="/app/affiliate/marketplace">
+            <rly-icon name="marketplace" [size]="16" />
+            Buscar campañas
+          </a>
+        </div>
       </header>
 
       <!-- KPIs -->
@@ -100,14 +107,14 @@ const WINDOW_DAYS = 30;
             label="Comisiones generadas"
             [value]="summary().commission | rlyMoney"
             [delta]="commissionDelta()"
-            caption="vs. 30 días anteriores"
+            [caption]="window().comparison"
             hint="Suma de las comisiones de las conversiones que no se han rechazado ni reembolsado."
           />
           <rly-kpi-card
             label="Conversiones"
             [value]="summary().conversions | rlyNumber"
             [delta]="conversionsDelta()"
-            caption="vs. 30 días anteriores"
+            [caption]="window().comparison"
           />
           <rly-kpi-card
             label="Clics"
@@ -127,7 +134,7 @@ const WINDOW_DAYS = 30;
           <!-- Evolución -->
           <rly-analytics-card
             title="¿Cómo evolucionan mis comisiones?"
-            description="Comisión generada por día en los últimos 30 días."
+            [description]="chartCaption()"
           >
             @defer (on viewport) {
               <rly-trend-chart
@@ -376,8 +383,21 @@ export class AffiliateHomePage {
   private readonly engagement = inject(EngagementRepository);
 
   protected readonly saved = inject(SavedStore);
-  protected readonly windowDays = WINDOW_DAYS;
   protected readonly affiliate = this.session.affiliate;
+
+  /** Periodo del resumen. Todo el panel se recalcula a partir de él. */
+  protected readonly period = signal<PeriodId>('30d');
+
+  protected readonly window = computed(() => periodWindow(this.period()));
+
+  protected readonly chartCaption = computed(
+    () => `Comisión generada por día · ${PERIODS.find((item) => item.id === this.period())?.label}`,
+  );
+
+  protected readonly periodCaption = computed(() => {
+    const label = PERIODS.find((item) => item.id === this.period())?.label ?? '30 días';
+    return `Resumen de ${label.toLowerCase()}`;
+  });
 
   protected readonly firstName = computed(() => this.affiliate()?.name.split(' ')[0] ?? 'de nuevo');
 
@@ -429,13 +449,13 @@ export class AffiliateHomePage {
   // --- Métricas -------------------------------------------------------------
 
   private readonly windowConversions = computed(() =>
-    withinDays(this.conversions.value(), WINDOW_DAYS),
+    withinDays(this.conversions.value(), this.window().days, this.window().offset),
   );
 
   protected readonly summary = computed(() => totals(this.windowConversions()));
 
   private readonly previousSummary = computed(() =>
-    totals(previousWindow(this.conversions.value(), WINDOW_DAYS)),
+    totals(previousWindow(this.conversions.value(), this.window().days, this.window().offset)),
   );
 
   protected readonly commissionDelta = computed(() =>
@@ -455,7 +475,7 @@ export class AffiliateHomePage {
   );
 
   protected readonly series = computed(() =>
-    dailySeries(this.windowConversions(), WINDOW_DAYS, 'commission'),
+    dailySeries(this.windowConversions(), this.window().days, 'commission', this.window().offset),
   );
 
   // --- Listas ---------------------------------------------------------------

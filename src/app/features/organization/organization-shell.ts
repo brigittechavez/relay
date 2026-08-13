@@ -30,6 +30,7 @@ import {
       [mobileNavItems]="mobileNav()"
       navLabel="Navegación de la organización"
       [notificationsLink]="'/app/organization/' + organizationId() + '/notificaciones'"
+      [notificationsAudience]="organizationId()"
       [title]="title()"
     />
   `,

@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   PLATFORM_ID,
@@ -22,6 +23,7 @@ import { Tooltip } from '@ds/tooltip/tooltip';
 import { NavItem } from '../navigation/navigation';
 import { AppBottomNav } from './app-bottom-nav';
 import { AppSidebar } from './app-sidebar';
+import { NotificationsStore } from '../session/notifications.store';
 import { DemoControls } from '../session/demo-controls';
 import { WorkspaceSwitcher } from './workspace-switcher';
 
@@ -126,11 +128,19 @@ const SIDEBAR_STORAGE_KEY = 'relay:sidebar-collapsed';
             variant="ghost"
             size="sm"
             iconOnly
+            class="relative"
             [routerLink]="notificationsLink()"
-            aria-label="Notificaciones"
+            [attr.aria-label]="notificationsLabel()"
             rlyTooltip="Notificaciones"
           >
             <rly-icon name="bell" [size]="18" />
+
+            @if (unreadCount()) {
+              <span
+                class="absolute right-1.5 top-1.5 size-2 rounded-full bg-accent ring-2 ring-canvas"
+                aria-hidden="true"
+              ></span>
+            }
           </a>
         </header>
 
@@ -158,6 +168,7 @@ const SIDEBAR_STORAGE_KEY = 'relay:sidebar-collapsed';
 export class AppShell {
   private readonly router = inject(Router);
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
+  private readonly notifications = inject(NotificationsStore);
 
   readonly navItems = input.required<readonly NavItem[]>();
   readonly secondaryNavItems = input<readonly NavItem[]>([]);
@@ -167,6 +178,15 @@ export class AppShell {
 
   /** Título de la vista actual, mostrado en la cabecera. */
   readonly title = input('');
+
+  /** Audiencia de la bandeja:  o el identificador de la organización. */
+  readonly notificationsAudience = input.required<string>();
+
+  protected readonly unreadCount = this.notifications.unreadCount;
+
+  protected readonly notificationsLabel = computed(() =>
+    this.unreadCount() ? `Notificaciones · ${this.unreadCount()} sin leer` : 'Notificaciones',
+  );
 
   protected readonly moreOpen = signal(false);
   protected readonly collapsed = signal(this.readCollapsed());
@@ -182,6 +202,12 @@ export class AppShell {
   );
 
   constructor() {
+    // La bandeja del contexto activo se carga al montar el shell: el contador
+    // de la cabecera es lo primero que se mira al entrar.
+    effect(() => {
+      void this.notifications.load(this.notificationsAudience());
+    });
+
     // Navegar cierra el panel «Más»: en móvil el destino ya cambió.
     this.router.events
       .pipe(

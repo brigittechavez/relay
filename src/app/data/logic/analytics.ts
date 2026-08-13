@@ -54,26 +54,30 @@ export function totals(conversions: readonly Conversion[]): ConversionTotals {
   };
 }
 
-/** Conversiones dentro de una ventana de N días desde el presente de la demo. */
+/**
+ * Registros dentro de una ventana de N días.
+ *
+ * `offset` desplaza la ventana hacia atrás, que es lo que permite pedir «el
+ * mes anterior» sin duplicar la función.
+ */
 export function withinDays<T extends { occurredAt: IsoDate }>(
   records: readonly T[],
   days: number,
+  offset = 0,
 ): T[] {
   return records.filter((record) => {
     const age = daysSince(record.occurredAt);
-    return age >= 0 && age < days;
+    return age >= offset && age < offset + days;
   });
 }
 
-/** Ventana anterior a la actual, para calcular la variación. */
+/** Ventana inmediatamente anterior, para calcular la variación. */
 export function previousWindow<T extends { occurredAt: IsoDate }>(
   records: readonly T[],
   days: number,
+  offset = 0,
 ): T[] {
-  return records.filter((record) => {
-    const age = daysSince(record.occurredAt);
-    return age >= days && age < days * 2;
-  });
+  return withinDays(records, days, offset + days);
 }
 
 /** Variación porcentual entre dos valores. `null` si no hay base de comparación. */
@@ -92,11 +96,12 @@ export function dailySeries(
   conversions: readonly Conversion[],
   days: number,
   field: 'commission' | 'value' | 'count',
+  offset = 0,
 ): SeriesPoint[] {
   const buckets = new Map<string, number>();
 
-  for (let offset = days - 1; offset >= 0; offset--) {
-    buckets.set(demoDate(-offset), 0);
+  for (let day = offset + days - 1; day >= offset; day--) {
+    buckets.set(demoDate(-day), 0);
   }
 
   for (const conversion of conversions) {
