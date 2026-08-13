@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { booleanAttribute, ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { Icon } from '@ds/icon/icon';
@@ -77,7 +77,7 @@ import { NavItem } from '../navigation/navigation';
 export class AppSidebar {
   readonly items = input.required<readonly NavItem[]>();
   readonly secondaryItems = input<readonly NavItem[]>([]);
-  readonly collapsed = input(false);
+  readonly collapsed = input(false, { transform: booleanAttribute });
   readonly ariaLabel = input('Navegación del área de trabajo');
 
   protected linkClasses(isActive: boolean): string {

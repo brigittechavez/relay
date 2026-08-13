@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { ActivatedRouteSnapshot, NavigationEnd, Router, RouterOutlet } from '@angular/router';
 import { filter, map, startWith } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
 
@@ -40,24 +40,32 @@ import { PublicHeader } from './public-header';
 })
 export class PublicShell {
   private readonly router = inject(Router);
-  private readonly route = inject(ActivatedRoute);
 
   private readonly routeData = toSignal(
     this.router.events.pipe(
       filter((event) => event instanceof NavigationEnd),
       startWith(null),
-      map(() => this.deepestChild().snapshot.data),
+      map(() => this.activeRouteData()),
     ),
-    { initialValue: this.route.snapshot.firstChild?.data ?? {} },
+    { initialValue: {} as Record<string, unknown> },
   );
 
   protected readonly overHero = computed(() => this.routeData()['overHero'] === true);
 
-  private deepestChild(): ActivatedRoute {
-    let route = this.route;
-    while (route.firstChild) {
-      route = route.firstChild;
+  /**
+   * Datos de la ruta hoja activa.
+   *
+   * Se lee del snapshot del router y no del árbol de `ActivatedRoute`, porque
+   * durante el prerender las rutas hijas todavía no tienen snapshot propio
+   * cuando el shell se construye.
+   */
+  private activeRouteData(): Record<string, unknown> {
+    let snapshot: ActivatedRouteSnapshot | null = this.router.routerState.snapshot.root;
+
+    while (snapshot?.firstChild) {
+      snapshot = snapshot.firstChild;
     }
-    return route;
+
+    return snapshot?.data ?? {};
   }
 }
