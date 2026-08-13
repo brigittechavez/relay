@@ -3,7 +3,6 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
-import { Badge } from '@ds/badge/badge';
 import { Button } from '@ds/button/button';
 import { Checkbox } from '@ds/choice/choice';
 import { Field } from '@ds/field/field';
@@ -89,7 +88,6 @@ const NICHES = Object.keys(NICHE_LABELS) as NicheId[];
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    Badge,
     Button,
     Checkbox,
     Field,

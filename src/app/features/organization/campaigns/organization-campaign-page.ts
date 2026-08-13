@@ -3,7 +3,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { Router, RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
-import { Badge } from '@ds/badge/badge';
 import { Button } from '@ds/button/button';
 import { EmptyState } from '@ds/empty-state/empty-state';
 import { Icon } from '@ds/icon/icon';
@@ -59,7 +58,6 @@ const LIFECYCLE: Partial<
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     RouterLink,
-    Badge,
     Button,
     EmptyState,
     Icon,

@@ -47,7 +47,6 @@ import { DatePipe, MoneyPipe, RelativeDatePipe } from '@shared/pipes/format.pipe
     EligibilityChecklist,
     MatchScore,
     ApplicationStatusBadge,
-    DatePipe,
     MoneyPipe,
     RelativeDatePipe,
   ],

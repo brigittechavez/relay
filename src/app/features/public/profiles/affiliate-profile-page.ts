@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  input,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
@@ -7,6 +14,7 @@ import { Button } from '@ds/button/button';
 import { EmptyState } from '@ds/empty-state/empty-state';
 import { Icon } from '@ds/icon/icon';
 import { Skeleton } from '@ds/skeleton/skeleton';
+import { SeoService } from '@core/seo/seo.service';
 import { CatalogRepository } from '@data/repositories/catalog.repository';
 import { BADGE_LABELS, totalAudience } from '@data/models/affiliate';
 import {
@@ -244,6 +252,21 @@ import { CompactPipe, DatePipe, PercentPipe } from '@shared/pipes/format.pipes';
 })
 export class AffiliateProfilePage {
   private readonly catalog = inject(CatalogRepository);
+  private readonly seo = inject(SeoService);
+
+  constructor() {
+    effect(() => {
+      const person = this.affiliate.value();
+      if (!person) return;
+
+      this.seo.apply({
+        title: `${person.name} · Afiliado en RELAY`,
+        description: person.headline,
+        path: `/afiliados/${person.slug}`,
+        type: 'profile',
+      });
+    });
+  }
 
   readonly slug = input.required<string>();
 

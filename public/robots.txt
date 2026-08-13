@@ -1,0 +1,10 @@
+# RELAY — proyecto de portafolio
+User-agent: *
+Allow: /
+
+# El área autenticada depende del estado local del navegador: no hay nada que
+# rastrear y su contenido no es público.
+Disallow: /app/
+Disallow: /onboarding
+
+Sitemap: https://relay-marketplace.netlify.app/sitemap.xml

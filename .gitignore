@@ -53,3 +53,6 @@ Thumbs.db
 
 # Compodoc output (not used)
 documentation.json
+
+# Playwright
+test-results/

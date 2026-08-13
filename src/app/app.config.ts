@@ -16,6 +16,7 @@ import {
   withViewTransitions,
 } from '@angular/router';
 
+import { RouteMetadata } from '@core/seo/route-metadata';
 import { SessionStore } from '@core/session/session.store';
 import { mockApiInterceptor } from '@data/mock/mock-api';
 import { routes } from './app.routes';
@@ -42,6 +43,12 @@ export const appConfig: ApplicationConfig = {
     // La sesión demo vive en el navegador. Restaurarla al arrancar hace que las
     // páginas públicas —marketplace, detalle de campaña— muestren también la
     // compatibilidad y el estado de quien ya está dentro de la demo.
+    // Metadatos por ruta: se aplican también durante el render en servidor, de
+    // modo que viajan en el HTML inicial.
+    provideAppInitializer(() => {
+      inject(RouteMetadata);
+    }),
+
     provideAppInitializer(() => {
       if (!isPlatformBrowser(inject(PLATFORM_ID))) return;
       return inject(SessionStore).restore();

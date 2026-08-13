@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   inject,
   input,
   viewChild,
@@ -14,6 +15,7 @@ import { Button } from '@ds/button/button';
 import { EmptyState } from '@ds/empty-state/empty-state';
 import { Icon } from '@ds/icon/icon';
 import { Skeleton } from '@ds/skeleton/skeleton';
+import { SeoService } from '@core/seo/seo.service';
 import { SessionStore } from '@core/session/session.store';
 import { SavedStore } from '@core/session/saved.store';
 import { CatalogRepository } from '@data/repositories/catalog.repository';
@@ -519,6 +521,7 @@ export class CampaignDetailPage {
   private readonly catalog = inject(CatalogRepository);
   private readonly engagement = inject(EngagementRepository);
   private readonly session = inject(SessionStore);
+  private readonly seo = inject(SeoService);
 
   protected readonly saved = inject(SavedStore);
 
@@ -527,6 +530,34 @@ export class CampaignDetailPage {
 
   /** Llega desde la ruta con `withComponentInputBinding`. */
   readonly slug = input.required<string>();
+
+  constructor() {
+    // Los metadatos se componen con los datos de la campaña en cuanto llegan,
+    // que en las rutas prerenderizadas ocurre antes de emitir el HTML.
+    effect(() => {
+      const campaign = this.campaign.value();
+      if (!campaign) return;
+
+      const organization = this.organization.value();
+
+      this.seo.apply({
+        title: `${campaign.name} · ${organization?.name ?? 'RELAY'}`,
+        description: campaign.summary,
+        path: `/campanas/${campaign.slug}`,
+        type: 'article',
+        structuredData: {
+          '@context': 'https://schema.org',
+          '@type': 'Offer',
+          name: campaign.name,
+          description: campaign.summary,
+          category: campaign.categoryId,
+          price: campaign.price,
+          priceCurrency: 'PEN',
+          seller: organization ? { '@type': 'Organization', name: organization.name } : undefined,
+        },
+      });
+    });
+  }
 
   protected readonly sections = [
     { id: 'resumen', label: 'Resumen' },

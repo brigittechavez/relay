@@ -2,10 +2,19 @@
 <html lang="es">
   <head>
     <meta charset="utf-8" />
-    <title>RELAY</title>
+    <title>RELAY · Marketplace de marketing de afiliados</title>
     <base href="/" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#101210" />
+
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+
+    <!--
+      La tipografía es la que dibuja el primer texto visible: precargarla evita
+      que el titular del hero se pinte con la fuente del sistema y salte al
+      llegar Bricolage. Solo el subconjunto latino, que es el que se usa.
+    -->
+    <link rel="preload" href="fonts/bricolage-grotesque-latin-wght.woff2" as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <rly-root></rly-root>

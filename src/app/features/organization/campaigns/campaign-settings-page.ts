@@ -12,7 +12,6 @@ import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 
-import { Badge } from '@ds/badge/badge';
 import { Button } from '@ds/button/button';
 import { Checkbox } from '@ds/choice/choice';
 import { Field } from '@ds/field/field';
@@ -40,7 +39,6 @@ import { AccessBadge, CampaignStatusBadge } from '@domain/status/status-badges';
   imports: [
     RouterLink,
     ReactiveFormsModule,
-    Badge,
     Button,
     Checkbox,
     Field,
