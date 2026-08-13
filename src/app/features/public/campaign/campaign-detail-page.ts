@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, inject, input } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  inject,
+  input,
+  viewChild,
+} from '@angular/core';
 import { rxResource } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 
@@ -25,6 +32,7 @@ import { EarningsCalculator } from '@domain/earnings-calculator/earnings-calcula
 import { EligibilityChecklist } from '@domain/eligibility/eligibility-checklist';
 import { MatchScore } from '@domain/match-score/match-score';
 import { AccessBadge, EndingBadge } from '@domain/status/status-badges';
+import { ApplyLauncher } from '@features/affiliate/apply/apply-launcher';
 import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
 
 /**
@@ -54,6 +62,7 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
     MatchScore,
     AccessBadge,
     EndingBadge,
+    ApplyLauncher,
     MoneyPipe,
     NumberPipe,
     PercentPipe,
@@ -134,6 +143,23 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
                   <span class="block text-ui-sm text-text-secondary">{{ org.location }}</span>
                 </span>
               </a>
+            }
+
+            <!-- Resumen de decisión en móvil: el panel lateral no existe a este
+                 ancho y la compatibilidad no puede quedarse fuera de la vista. -->
+            @if (matchScore() !== null) {
+              <div
+                class="mt-5 flex items-center gap-3 rounded-lg border border-border bg-surface
+                       p-4 lg:hidden"
+              >
+                <rly-match-score [value]="matchScore()!" size="lg" [showLabel]="false" />
+                <div>
+                  <p class="text-ui font-medium text-ink">
+                    {{ matchScore() }}% de compatibilidad
+                  </p>
+                  <p class="text-ui-sm text-text-secondary">Según tu perfil y tus canales</p>
+                </div>
+              </div>
             }
 
             <!-- Navegación interna -->
@@ -402,9 +428,15 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
               </dl>
 
               <div class="mt-5 flex flex-col gap-2 border-t border-border pt-5">
-                <a rlyButton variant="primary" block [routerLink]="primaryLink()">
-                  {{ primaryLabel() }}
-                </a>
+                @if (usesLauncher()) {
+                  <button rlyButton variant="primary" block type="button" (click)="startApply()">
+                    {{ primaryLabel() }}
+                  </button>
+                } @else {
+                  <a rlyButton variant="primary" block [routerLink]="primaryLink()">
+                    {{ primaryLabel() }}
+                  </a>
+                }
 
                 @if (hasSession()) {
                   <button
@@ -454,11 +486,31 @@ import { MoneyPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes';
               </button>
             }
 
-            <a rlyButton variant="primary" [routerLink]="primaryLink()" class="shrink-0">
-              {{ primaryLabel() }}
-            </a>
+            @if (usesLauncher()) {
+              <button
+                rlyButton
+                variant="primary"
+                type="button"
+                class="shrink-0"
+                (click)="startApply()"
+              >
+                {{ primaryLabel() }}
+              </button>
+            } @else {
+              <a rlyButton variant="primary" [routerLink]="primaryLink()" class="shrink-0">
+                {{ primaryLabel() }}
+              </a>
+            }
           </div>
         </div>
+        @if (usesLauncher()) {
+          <rly-apply-launcher
+            [campaign]="item"
+            [eligibility]="eligibility()"
+            [organizationName]="organization.value()?.name ?? 'La organización'"
+            [reviewTime]="reviewTime()"
+          />
+        }
       </article>
     }
   `,
@@ -469,6 +521,9 @@ export class CampaignDetailPage {
   private readonly session = inject(SessionStore);
 
   protected readonly saved = inject(SavedStore);
+
+  /** El lanzador solo existe cuando la solicitud se resuelve en esta página. */
+  private readonly launcher = viewChild(ApplyLauncher);
 
   /** Llega desde la ruta con `withComponentInputBinding`. */
   readonly slug = input.required<string>();
@@ -487,7 +542,7 @@ export class CampaignDetailPage {
   });
 
   protected readonly organization = rxResource({
-    params: () => this.campaign.value()?.organizationId ?? null,
+    params: () => this.campaign.value()?.organizationId,
     stream: ({ params }) => this.catalog.organization(params!),
     defaultValue: undefined,
   });
@@ -496,9 +551,9 @@ export class CampaignDetailPage {
     params: () => {
       const affiliateId = this.session.affiliate()?.id;
       const campaignId = this.campaign.value()?.id;
-      return affiliateId && campaignId ? { affiliateId, campaignId } : null;
+      return affiliateId && campaignId ? { affiliateId, campaignId } : undefined;
     },
-    stream: ({ params }) => this.engagement.listApplications(params!),
+    stream: ({ params }) => this.engagement.listApplications(params),
     defaultValue: [],
   });
 
@@ -596,7 +651,7 @@ export class CampaignDetailPage {
       return ['/app/affiliate/aplicaciones', application.id];
     }
 
-    return ['/app/affiliate/marketplace', campaign.slug, 'aplicar'];
+    return ['/app/affiliate/campanas', campaign.slug, 'aplicar'];
   });
 
   protected readonly primaryLabel = computed(() => {
@@ -611,6 +666,33 @@ export class CampaignDetailPage {
 
     return this.campaign.value()?.access === 'open' ? 'Unirme ahora' : 'Aplicar';
   });
+
+  /**
+   * Solicitud resuelta en la propia página.
+   *
+   * Las campañas abiertas y selectivas se resuelven aquí —modal y panel— porque
+   * la decisión ya está tomada al llegar. Las premium van a una página aparte:
+   * la propuesta es más larga y no cabe en un panel sin comprimirla.
+   */
+  protected readonly usesLauncher = computed(() => {
+    if (!this.hasSession()) return false;
+
+    const campaign = this.campaign.value();
+    if (!campaign || campaign.access === 'premium') return false;
+    if (this.applications.value().some((item) => item.status !== 'withdrawn')) return false;
+
+    return this.eligibility()?.eligible === true;
+  });
+
+  protected readonly reviewTime = computed(() => {
+    const days = this.organization.value()?.metrics.averageReviewDays;
+    if (!days) return 'unos días';
+    return days < 1 ? 'menos de un día' : `${days} días`;
+  });
+
+  protected startApply(): void {
+    this.launcher()?.open();
+  }
 
   protected tagLabel(tag: string): string {
     return TAG_LABELS[tag as keyof typeof TAG_LABELS] ?? tag;

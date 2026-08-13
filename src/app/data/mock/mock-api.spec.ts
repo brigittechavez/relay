@@ -1,4 +1,4 @@
-import { HttpClient, provideHttpClient, withInterceptors } from '@angular/common/http';
+import { HttpClient, HttpParams, provideHttpClient, withInterceptors } from '@angular/common/http';
 import { TestBed } from '@angular/core/testing';
 import { firstValueFrom } from 'rxjs';
 import { beforeEach, describe, expect, it } from 'vitest';
@@ -264,6 +264,38 @@ describe('mock API', () => {
 
       const after = await get<Application[]>('/api/applications?affiliateId=lucia-vega');
       expect(after.length).toBe(before.length - 1);
+    });
+  });
+
+  /**
+   * Regresión: HttpClient guarda los parámetros de consulta fuera de la URL y
+   * solo los serializa al enviar. Si el transporte simulado lee `url` en lugar
+   * de `urlWithParams`, todos los filtros se pierden en silencio y las
+   * consultas devuelven registros de más.
+   */
+  describe('parámetros construidos con HttpParams', () => {
+    it('aplica los filtros enviados como HttpParams, no solo los de la URL', async () => {
+      const params = new HttpParams()
+        .set('affiliateId', 'lucia-vega')
+        .set('campaignId', 'revenue-systems');
+
+      const filtered = await firstValueFrom(
+        http.get<Application[]>('/api/applications', { params }),
+      );
+
+      // Lucía no ha solicitado esta campaña: la única solicitud es de otra persona.
+      expect(filtered).toHaveLength(0);
+    });
+
+    it('respeta el filtro de acceso enviado como HttpParams', async () => {
+      const page = await firstValueFrom(
+        http.get<Page<Campaign>>('/api/campaigns', {
+          params: new HttpParams().set('access', 'premium'),
+        }),
+      );
+
+      expect(page.items).toHaveLength(1);
+      expect(page.items[0].id).toBe('revenue-systems');
     });
   });
 

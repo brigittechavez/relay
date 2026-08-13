@@ -295,7 +295,7 @@ export class MarketplacePage {
 
   /** Solicitudes del afiliado, para saber el estado de cada tarjeta. */
   private readonly applications = rxResource({
-    params: () => this.affiliate()?.id ?? null,
+    params: () => this.affiliate()?.id,
     stream: ({ params }) =>
       params
         ? this.engagement.listApplications({ affiliateId: params })

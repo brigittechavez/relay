@@ -199,7 +199,7 @@ export class OrganizationProfilePage {
   });
 
   private readonly campaigns = rxResource({
-    params: () => this.organization.value()?.id ?? null,
+    params: () => this.organization.value()?.id,
     stream: ({ params }) =>
       this.catalog.listCampaigns({ organizationId: params, pageSize: 50, includeAll: true }),
   });

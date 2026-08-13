@@ -43,13 +43,15 @@ export interface SortOption {
   template: `
     <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
       <rly-search-input class="flex-1">
-        <label [for]="searchId" class="sr-only">{{ searchLabel() }}</label>
+        <!-- El nombre accesible va en aria-label y no en un <label for>: el id
+             de estos controles lo gestiona rly-field cuando existe, y ponerle
+             otro desde fuera lo sobrescribiría. -->
         <input
           rlyInput
           withLeadingIcon
-          [id]="searchId"
           type="search"
           [value]="query()"
+          [attr.aria-label]="searchLabel()"
           [placeholder]="searchPlaceholder()"
           (input)="onSearch($event)"
         />
@@ -58,8 +60,13 @@ export interface SortOption {
       <div class="flex items-center gap-2">
         @if (sortOptions().length) {
           <rly-select class="min-w-44">
-            <label [for]="sortId" class="sr-only">Ordenar por</label>
-            <select rlySelect compact [id]="sortId" [value]="sort()" (change)="onSort($event)">
+            <select
+              rlySelect
+              compact
+              aria-label="Ordenar por"
+              [value]="sort()"
+              (change)="onSort($event)"
+            >
               @for (option of sortOptions(); track option.id) {
                 <option [value]="option.id">{{ option.label }}</option>
               }
@@ -105,12 +112,6 @@ export interface SortOption {
   `,
 })
 export class FilterBar {
-  private static sequence = 0;
-  private readonly uid = `rly-filters-${++FilterBar.sequence}`;
-
-  protected readonly searchId = `${this.uid}-search`;
-  protected readonly sortId = `${this.uid}-sort`;
-
   readonly query = input('');
   readonly searchLabel = input('Buscar');
   readonly searchPlaceholder = input('Buscar');

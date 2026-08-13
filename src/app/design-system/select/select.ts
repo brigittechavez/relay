@@ -22,7 +22,7 @@ import { Icon } from '../icon/icon';
   selector: 'select[rlySelect]',
   host: {
     '[class]': 'classes()',
-    '[id]': 'controlId()',
+    '[attr.id]': 'controlId()',
     '[attr.aria-describedby]': 'field?.describedBy() ?? null',
     '[attr.aria-invalid]': 'field?.hasError() ? "true" : null',
     '[attr.aria-required]': 'field?.required() ? "true" : null',

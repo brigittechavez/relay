@@ -33,7 +33,7 @@ const INVALID =
   selector: 'input[rlyInput]',
   host: {
     '[class]': 'classes()',
-    '[id]': 'controlId()',
+    '[attr.id]': 'controlId()',
     '[attr.aria-describedby]': 'field?.describedBy() ?? null',
     '[attr.aria-invalid]': 'field?.hasError() ? "true" : null',
     '[attr.aria-required]': 'field?.required() ? "true" : null',
@@ -74,7 +74,7 @@ export class InputField {
   selector: 'textarea[rlyTextarea]',
   host: {
     '[class]': 'classes()',
-    '[id]': 'controlId()',
+    '[attr.id]': 'controlId()',
     '[attr.aria-describedby]': 'field?.describedBy() ?? null',
     '[attr.aria-invalid]': 'field?.hasError() ? "true" : null',
     '[attr.aria-required]': 'field?.required() ? "true" : null',

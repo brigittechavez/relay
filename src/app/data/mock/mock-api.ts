@@ -40,7 +40,10 @@ export const mockApiInterceptor: HttpInterceptorFn = (request, next) => {
   const isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   const routes = buildRoutes(store);
 
-  const url = new URL(request.url, 'http://relay.local');
+  // `urlWithParams` y no `url`: HttpClient guarda los parámetros de consulta
+  // aparte y solo los serializa al enviar, de modo que leer `url` dejaría
+  // fuera todos los filtros construidos con `HttpParams`.
+  const url = new URL(request.urlWithParams, 'http://relay.local');
   const matched = matchRoute(routes, request.method, url.pathname);
 
   if (!matched) {
