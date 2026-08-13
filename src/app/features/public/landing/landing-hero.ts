@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
 import { Button } from '@ds/button/button';
@@ -37,7 +37,20 @@ import { CompactPipe, NumberPipe, PercentPipe } from '@shared/pipes/format.pipes
           </p>
 
           <h1 class="mt-6 text-display text-text-inverse">
-            El relevo entre lo que ofreces y
+            El relevo entre
+            <!-- Los monogramas viven dentro de la frase: no son decoración,
+                 son las organizaciones que están publicando ahora mismo. -->
+            <span class="inline-flex translate-y-1 items-center -space-x-2 align-middle" aria-hidden="true">
+              @for (initials of organizationMarks(); track initials) {
+                <span
+                  class="grid size-[0.85em] place-items-center rounded-full border-2
+                         border-inverse bg-surface text-[0.3em] font-semibold text-ink"
+                >
+                  {{ initials }}
+                </span>
+              }
+            </span>
+            lo que ofreces y
             <span class="text-accent">quien sabe recomendarlo</span>
           </h1>
 
@@ -124,6 +137,13 @@ export class LandingHero {
   readonly campaignCount = input(0);
   readonly affiliateCount = input(0);
   readonly averageConversionRate = input(0);
+
+  /** Monogramas de las primeras organizaciones, para el titular. */
+  protected readonly organizationMarks = computed(() =>
+    this.organizations()
+      .slice(0, 3)
+      .map((organization) => organization.initials),
+  );
 
   protected organizationName(campaign: Campaign): string {
     return this.organizations().find((item) => item.id === campaign.organizationId)?.name ?? '';

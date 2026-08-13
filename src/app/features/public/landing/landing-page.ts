@@ -74,10 +74,10 @@ const TRUST = [
     />
 
     <!-- Oportunidades reales del marketplace -->
-    <section class="container-page section-y" aria-labelledby="oportunidades">
+    <section class="container-page relative -mt-10 pb-[var(--rly-layout-section-y)] lg:-mt-16" aria-labelledby="oportunidades">
       <div class="flex flex-wrap items-end justify-between gap-4">
         <div class="max-w-xl">
-          <p class="text-label uppercase text-text-muted">Oportunidades</p>
+          <p [class]="eyebrow">Oportunidades</p>
           <h2 id="oportunidades" class="mt-2 text-title-lg text-ink">
             Campañas abiertas ahora mismo
           </h2>
@@ -110,13 +110,7 @@ const TRUST = [
       >
         <div class="container-page grid gap-10 lg:grid-cols-2 lg:gap-16">
           <div>
-            <p
-              class="text-label uppercase"
-              [class.text-text-muted]="index === 0"
-              [class.text-accent]="index === 1"
-            >
-              {{ path.eyebrow }}
-            </p>
+            <p [class]="index === 1 ? eyebrowInverse : eyebrow">{{ path.eyebrow }}</p>
             <h2
               [id]="path.id"
               class="mt-2 text-title-lg"
@@ -179,7 +173,7 @@ const TRUST = [
     <!-- Señales de confianza -->
     <section class="container-page section-y" aria-labelledby="confianza">
       <div class="max-w-xl">
-        <p class="text-label uppercase text-text-muted">Cómo se decide</p>
+        <p [class]="eyebrow">Cómo se decide</p>
         <h2 id="confianza" class="mt-2 text-title-lg text-ink">
           La información que hace falta para decidir, en la propia campaña
         </h2>
@@ -191,15 +185,18 @@ const TRUST = [
       </div>
 
       <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        @for (signal of trust; track signal.label) {
-          <li class="rounded-lg border border-border bg-surface p-5">
-            <span
-              class="grid size-9 place-items-center rounded-sm bg-surface-muted text-ink"
-              aria-hidden="true"
-            >
+        @for (signal of trust; track signal.label; let index = $index) {
+          <li [class]="index === 1 ? trustTileInverse : trustTile">
+            <span [class]="index === 1 ? trustIconInverse : trustIcon" aria-hidden="true">
               <rly-icon [name]="signal.icon" [size]="18" />
             </span>
-            <p class="mt-3 text-ui font-medium text-ink">{{ signal.label }}</p>
+            <p
+              class="mt-3 text-ui font-medium"
+              [class.text-ink]="index !== 1"
+              [class.text-text-inverse]="index === 1"
+            >
+              {{ signal.label }}
+            </p>
           </li>
         }
       </ul>
@@ -209,7 +206,7 @@ const TRUST = [
     <section class="border-t border-border bg-surface section-y" aria-labelledby="planes">
       <div class="container-page">
         <div class="max-w-xl">
-          <p class="text-label uppercase text-text-muted">Planes</p>
+          <p [class]="eyebrow">Planes</p>
           <h2 id="planes" class="mt-2 text-title-lg text-ink">
             Gratis para afiliados. Por volumen para organizaciones.
           </h2>
@@ -264,6 +261,23 @@ const TRUST = [
 })
 export class LandingPage {
   private readonly catalog = inject(CatalogRepository);
+
+  /** Etiqueta de sección: píldora con borde, no texto suelto. */
+  protected readonly eyebrow =
+    'inline-flex items-center rounded-full border border-border px-3 py-1 text-label ' +
+    'uppercase text-text-secondary';
+
+  protected readonly eyebrowInverse =
+    'inline-flex items-center rounded-full border border-border-inverse px-3 py-1 text-label ' +
+    'uppercase text-accent';
+
+  protected readonly trustTile = 'rounded-lg border border-border bg-surface p-5';
+  protected readonly trustTileInverse = 'rounded-lg border border-ink bg-inverse p-5';
+
+  protected readonly trustIcon =
+    'grid size-9 place-items-center rounded-sm bg-surface-muted text-ink';
+  protected readonly trustIconInverse =
+    'grid size-9 place-items-center rounded-sm bg-accent text-accent-contrast';
 
   protected readonly paths = PATHS;
   protected readonly trust = TRUST;
