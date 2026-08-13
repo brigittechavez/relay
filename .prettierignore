@@ -1,0 +1,9 @@
+dist
+.angular
+coverage
+storybook-static
+node_modules
+package-lock.json
+public
+docs
+design-references

@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" role="img" aria-label="RELAY">
+  <rect width="32" height="32" rx="8" fill="#101210"/>
+  <path d="M8 10.5h6.2a4.4 4.4 0 0 1 1.5 8.54L19.6 24H15.9l-3.3-4.6H11V24H8V10.5Zm3 2.8v3.4h3.1a1.7 1.7 0 0 0 0-3.4H11Z" fill="#D7FF3F"/>
+  <path d="M21.2 8.6 26 13.4l-4.8 4.8-1.9-1.9 1.6-1.6h-3.6v-2.7h3.6l-1.6-1.6 1.9-1.8Z" fill="#D7FF3F" opacity=".55"/>
+</svg>

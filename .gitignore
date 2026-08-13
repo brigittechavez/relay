@@ -1,0 +1,55 @@
+# Internal working material — NOT part of the public repository
+/docs/
+/design-references/
+
+# Dependencies
+/node_modules
+npm-debug.log
+yarn-error.log
+
+# Angular / build output
+/dist
+/tmp
+/out-tsc
+/bazel-out
+.angular/cache
+/.angular
+
+# Storybook
+/storybook-static
+
+# Tests
+/coverage
+/test-results
+/playwright-report
+/blob-report
+/playwright/.cache
+
+# IDE
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# Misc
+.DS_Store
+Thumbs.db
+*.log
+.env
+.env.*
+!.env.example
+.netlify
+
+*storybook.log
+
+# Compodoc output (not used)
+documentation.json
