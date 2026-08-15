@@ -14,7 +14,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PUBLIC_DIR = join(ROOT, 'public');
-const ORIGIN = 'https://relay-marketplace.netlify.app';
+const ORIGIN = 'https://relay4u.netlify.app';
 
 /**
  * Los slugs se leen del seed con una expresión regular en lugar de importarlo:

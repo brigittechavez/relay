@@ -14,7 +14,7 @@ export interface SeoMetadata {
 }
 
 /** Dominio canónico del proyecto publicado. */
-const ORIGIN = 'https://relay-marketplace.netlify.app';
+const ORIGIN = 'https://relay4u.netlify.app';
 
 /**
  * Imagen de compartición por defecto: la tarjeta de marca generada con

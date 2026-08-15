@@ -7,4 +7,4 @@ Allow: /
 Disallow: /app/
 Disallow: /onboarding
 
-Sitemap: https://relay-marketplace.netlify.app/sitemap.xml
+Sitemap: https://relay4u.netlify.app/sitemap.xml
