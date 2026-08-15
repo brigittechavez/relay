@@ -96,31 +96,33 @@ const GROUPS: Record<Filter, readonly ConversionStatus[]> = {
             <ul class="mt-4 flex flex-col gap-2">
               @for (row of byAffiliate(); track row.affiliateId) {
                 <li
-                  class="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-lg border border-border
+                  class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 rounded-lg border border-border
                          bg-surface p-4"
                 >
                   <span class="min-w-0 flex-1 text-ui font-medium text-ink">
                     {{ affiliateName(row.affiliateId) }}
                   </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Pendiente</span>
-                    <span class="block text-ui tabular-nums text-ink">
-                      {{ row.pending | rlyMoney }}
+                  <span class="grid grid-cols-2 gap-x-4 gap-y-3 sm:contents">
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Pendiente</span>
+                      <span class="block text-ui tabular-nums text-ink">
+                        {{ row.pending | rlyMoney }}
+                      </span>
                     </span>
-                  </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Por pagar</span>
-                    <span class="block text-ui tabular-nums text-ink">
-                      {{ row.available | rlyMoney }}
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Por pagar</span>
+                      <span class="block text-ui tabular-nums text-ink">
+                        {{ row.available | rlyMoney }}
+                      </span>
                     </span>
-                  </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Pagado</span>
-                    <span class="block text-ui font-medium tabular-nums text-ink">
-                      {{ row.paid | rlyMoney }}
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Pagado</span>
+                      <span class="block text-ui font-medium tabular-nums text-ink">
+                        {{ row.paid | rlyMoney }}
+                      </span>
                     </span>
                   </span>
                 </li>
@@ -158,10 +160,10 @@ const GROUPS: Record<Filter, readonly ConversionStatus[]> = {
             <ul class="mt-4 flex flex-col gap-2">
               @for (conversion of visible(); track conversion.id) {
                 <li
-                  class="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-lg border border-border
+                  class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 rounded-lg border border-border
                          bg-surface p-4"
                 >
-                  <span class="w-24 shrink-0 font-mono text-ui-sm text-text-muted">
+                  <span class="shrink-0 font-mono sm:w-24 text-ui-sm text-text-muted">
                     {{ conversion.id }}
                   </span>
 
@@ -177,7 +179,7 @@ const GROUPS: Record<Filter, readonly ConversionStatus[]> = {
 
                   <rly-conversion-status [status]="conversion.status" />
 
-                  <span class="w-24 text-right text-ui font-medium tabular-nums text-ink">
+                  <span class="sm:w-24 sm:text-right text-ui font-medium tabular-nums text-ink">
                     {{ conversion.commission | rlyMoney }}
                   </span>
                 </li>

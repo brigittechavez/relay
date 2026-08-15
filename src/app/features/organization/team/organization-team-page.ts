@@ -46,7 +46,7 @@ import { DatePipe } from '@shared/pipes/format.pipes';
           <ul class="mt-6 flex flex-col gap-2">
             @for (member of members(); track member.id) {
               <li
-                class="flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border border-border
+                class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-2 rounded-lg border border-border
                        bg-surface p-4"
               >
                 <span

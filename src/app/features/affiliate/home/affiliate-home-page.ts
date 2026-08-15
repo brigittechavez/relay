@@ -170,7 +170,7 @@ import {
                   <li>
                     <a
                       [routerLink]="['/app/affiliate/campanas', item.campaign.id]"
-                      class="focus-ring flex flex-wrap items-center gap-x-4 gap-y-2 rounded-lg border
+                      class="focus-ring flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-4 sm:gap-y-2 rounded-lg border
                              border-border bg-surface p-4 transition-colors duration-micro
                              hover:border-border-strong"
                     >
@@ -183,21 +183,26 @@ import {
                         </span>
                       </span>
 
-                      <span class="text-right">
-                        <span class="block text-ui-sm text-text-muted">Conversiones</span>
-                        <span class="block text-ui tabular-nums text-ink">
-                          {{ item.conversions | rlyNumber }}
+                      <span class="grid grid-cols-2 gap-x-4 gap-y-3 sm:contents">
+                        <span class="sm:text-right">
+                          <span class="block text-ui-sm text-text-muted">Conversiones</span>
+                          <span class="block text-ui tabular-nums text-ink">
+                            {{ item.conversions | rlyNumber }}
+                          </span>
+                        </span>
+
+                        <span class="sm:text-right">
+                          <span class="block text-ui-sm text-text-muted">Comisión</span>
+                          <span class="block text-ui tabular-nums text-ink">
+                            {{ item.commission | rlyMoney }}
+                          </span>
                         </span>
                       </span>
-
-                      <span class="text-right">
-                        <span class="block text-ui-sm text-text-muted">Comisión</span>
-                        <span class="block text-ui tabular-nums text-ink">
-                          {{ item.commission | rlyMoney }}
-                        </span>
-                      </span>
-
-                      <rly-icon name="chevron-right" [size]="16" class="text-text-muted" />
+                      <rly-icon
+                        name="chevron-right"
+                        [size]="16"
+                        class="text-text-muted max-sm:hidden"
+                      />
                     </a>
                   </li>
                 }

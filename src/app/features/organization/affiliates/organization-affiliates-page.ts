@@ -99,7 +99,7 @@ const NICHES = Object.keys(NICHE_LABELS) as NicheId[];
           <ul class="mt-6 flex flex-col gap-2">
             @for (row of activeRows(); track row.partnership.id) {
               <li
-                class="flex flex-wrap items-center gap-x-5 gap-y-3 rounded-lg border border-border
+                class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3 rounded-lg border border-border
                        bg-surface p-4"
               >
                 <span
@@ -121,20 +121,21 @@ const NICHES = Object.keys(NICHE_LABELS) as NicheId[];
 
                 <rly-partnership-status [status]="row.partnership.status" />
 
-                <span class="text-right">
-                  <span class="block text-ui-sm text-text-muted">Conversiones</span>
-                  <span class="block text-ui tabular-nums text-ink">
-                    {{ row.conversions | rlyNumber }}
+                <span class="grid grid-cols-2 gap-x-4 gap-y-3 sm:contents">
+                  <span class="sm:text-right">
+                    <span class="block text-ui-sm text-text-muted">Conversiones</span>
+                    <span class="block text-ui tabular-nums text-ink">
+                      {{ row.conversions | rlyNumber }}
+                    </span>
+                  </span>
+
+                  <span class="sm:text-right">
+                    <span class="block text-ui-sm text-text-muted">Revenue</span>
+                    <span class="block text-ui font-medium tabular-nums text-ink">
+                      {{ row.revenue | rlyMoney }}
+                    </span>
                   </span>
                 </span>
-
-                <span class="text-right">
-                  <span class="block text-ui-sm text-text-muted">Revenue</span>
-                  <span class="block text-ui font-medium tabular-nums text-ink">
-                    {{ row.revenue | rlyMoney }}
-                  </span>
-                </span>
-
                 <span class="flex gap-2">
                   @if (row.partnership.status === 'active') {
                     <button

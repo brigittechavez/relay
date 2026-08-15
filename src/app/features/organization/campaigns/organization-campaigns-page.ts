@@ -119,7 +119,9 @@ type Filter = 'all' | CampaignStatus;
                   class="hidden w-32 shrink-0 sm:block"
                 />
 
-                <span class="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-3 p-4">
+                <span
+                  class="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3 p-4"
+                >
                   <span class="min-w-0 flex-1">
                     <span class="block truncate text-ui font-medium text-ink">
                       {{ row.campaign.name }}
@@ -133,26 +135,31 @@ type Filter = 'all' | CampaignStatus;
                     </span>
                   </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Afiliados</span>
-                    <span class="block text-ui tabular-nums text-ink">{{ row.affiliates }}</span>
-                  </span>
+                  <span class="grid grid-cols-2 gap-x-4 gap-y-3 sm:contents">
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Afiliados</span>
+                      <span class="block text-ui tabular-nums text-ink">{{ row.affiliates }}</span>
+                    </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Conversiones</span>
-                    <span class="block text-ui tabular-nums text-ink">
-                      {{ row.conversions | rlyNumber }}
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Conversiones</span>
+                      <span class="block text-ui tabular-nums text-ink">
+                        {{ row.conversions | rlyNumber }}
+                      </span>
+                    </span>
+
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Revenue</span>
+                      <span class="block text-ui font-medium tabular-nums text-ink">
+                        {{ row.revenue | rlyMoney }}
+                      </span>
                     </span>
                   </span>
-
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Revenue</span>
-                    <span class="block text-ui font-medium tabular-nums text-ink">
-                      {{ row.revenue | rlyMoney }}
-                    </span>
-                  </span>
-
-                  <rly-icon name="chevron-right" [size]="16" class="text-text-muted" />
+                  <rly-icon
+                    name="chevron-right"
+                    [size]="16"
+                    class="text-text-muted max-sm:hidden"
+                  />
                 </span>
               </a>
             </li>

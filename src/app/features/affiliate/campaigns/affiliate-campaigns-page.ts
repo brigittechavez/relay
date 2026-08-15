@@ -104,7 +104,9 @@ type Filter = 'all' | PartnershipStatus;
                   class="hidden w-32 shrink-0 sm:block"
                 />
 
-                <span class="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-3 p-4">
+                <span
+                  class="flex min-w-0 flex-1 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3 p-4"
+                >
                   <span class="min-w-0 flex-1">
                     <span class="block truncate text-ui font-medium text-ink">
                       {{ row.campaign.name }}
@@ -115,35 +117,41 @@ type Filter = 'all' | PartnershipStatus;
                     <rly-partnership-status class="mt-2" [status]="row.partnership.status" />
                   </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Clics</span>
-                    <span class="block text-ui tabular-nums text-ink">
-                      {{ row.clicks | rlyNumber }}
+                  <span class="grid grid-cols-2 gap-x-4 gap-y-3 sm:contents">
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Clics</span>
+                      <span class="block text-ui tabular-nums text-ink">
+                        {{ row.clicks | rlyNumber }}
+                      </span>
+                    </span>
+
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Conversiones</span>
+                      <span class="block text-ui tabular-nums text-ink">
+                        {{ row.conversions | rlyNumber }}
+                      </span>
+                    </span>
+
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">CVR</span>
+                      <span class="block text-ui tabular-nums text-ink">
+                        {{ row.conversionRate | rlyPercent: 2 }}
+                      </span>
+                    </span>
+
+                    <span class="sm:text-right">
+                      <span class="block text-ui-sm text-text-muted">Comisión</span>
+                      <span class="block text-ui font-medium tabular-nums text-ink">
+                        {{ row.commission | rlyMoney }}
+                      </span>
                     </span>
                   </span>
 
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Conversiones</span>
-                    <span class="block text-ui tabular-nums text-ink">
-                      {{ row.conversions | rlyNumber }}
-                    </span>
-                  </span>
-
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">CVR</span>
-                    <span class="block text-ui tabular-nums text-ink">
-                      {{ row.conversionRate | rlyPercent: 2 }}
-                    </span>
-                  </span>
-
-                  <span class="text-right">
-                    <span class="block text-ui-sm text-text-muted">Comisión</span>
-                    <span class="block text-ui font-medium tabular-nums text-ink">
-                      {{ row.commission | rlyMoney }}
-                    </span>
-                  </span>
-
-                  <rly-icon name="chevron-right" [size]="16" class="text-text-muted" />
+                  <rly-icon
+                    name="chevron-right"
+                    [size]="16"
+                    class="text-text-muted max-sm:hidden"
+                  />
                 </span>
               </a>
             </li>

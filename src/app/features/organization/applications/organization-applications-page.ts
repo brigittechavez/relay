@@ -94,7 +94,7 @@ type Filter = 'pending' | 'approved' | 'rejected' | 'all';
             <li>
               <button
                 type="button"
-                class="focus-ring flex w-full flex-wrap items-center gap-x-5 gap-y-3 rounded-lg
+                class="focus-ring flex w-full flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-3 rounded-lg
                        border border-border bg-surface p-4 text-left transition-colors
                        duration-micro hover:border-border-strong"
                 (click)="review(application)"
@@ -112,11 +112,11 @@ type Filter = 'pending' | 'approved' | 'rejected' | 'all';
 
                 <rly-application-status [status]="application.status" />
 
-                <span class="w-24 text-ui-sm text-text-muted">
+                <span class="sm:w-24 text-ui-sm text-text-muted">
                   {{ application.submittedAt ?? application.createdAt | rlyRelativeDate }}
                 </span>
 
-                <rly-icon name="chevron-right" [size]="16" class="text-text-muted" />
+                <rly-icon name="chevron-right" [size]="16" class="text-text-muted max-sm:hidden" />
               </button>
             </li>
           }

@@ -372,32 +372,39 @@ const WINDOW_DAYS = 30;
                 >
                   <ul class="flex flex-col divide-y divide-border">
                     @for (row of channelBreakdown(); track row.channel) {
-                      <li class="flex flex-wrap items-center gap-x-5 gap-y-2 py-3 first:pt-0">
+                      <li
+                        class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 py-3 first:pt-0"
+                      >
                         <span class="min-w-0 flex-1 text-ui text-ink">
                           {{ channelName(row.channel) }}
                         </span>
-                        <span class="text-right">
-                          <span class="block text-ui-sm text-text-muted">Clics</span>
-                          <span class="block text-ui tabular-nums text-ink">
-                            {{ row.clicks | rlyNumber }}
+                        <span class="grid grid-cols-2 gap-x-4 gap-y-3 sm:contents">
+                          <span class="sm:text-right">
+                            <span class="block text-ui-sm text-text-muted">Clics</span>
+                            <span class="block text-ui tabular-nums text-ink">
+                              {{ row.clicks | rlyNumber }}
+                            </span>
                           </span>
-                        </span>
-                        <span class="text-right">
-                          <span class="block text-ui-sm text-text-muted">Conversiones</span>
-                          <span class="block text-ui tabular-nums text-ink">
-                            {{ row.conversions }}
+
+                          <span class="sm:text-right">
+                            <span class="block text-ui-sm text-text-muted">Conversiones</span>
+                            <span class="block text-ui tabular-nums text-ink">
+                              {{ row.conversions }}
+                            </span>
                           </span>
-                        </span>
-                        <span class="text-right">
-                          <span class="block text-ui-sm text-text-muted">CVR</span>
-                          <span class="block text-ui tabular-nums text-ink">
-                            {{ row.conversionRate | rlyPercent: 2 }}
+
+                          <span class="sm:text-right">
+                            <span class="block text-ui-sm text-text-muted">CVR</span>
+                            <span class="block text-ui tabular-nums text-ink">
+                              {{ row.conversionRate | rlyPercent: 2 }}
+                            </span>
                           </span>
-                        </span>
-                        <span class="text-right">
-                          <span class="block text-ui-sm text-text-muted">Comisión</span>
-                          <span class="block text-ui font-medium tabular-nums text-ink">
-                            {{ row.commission | rlyMoney }}
+
+                          <span class="sm:text-right">
+                            <span class="block text-ui-sm text-text-muted">Comisión</span>
+                            <span class="block text-ui font-medium tabular-nums text-ink">
+                              {{ row.commission | rlyMoney }}
+                            </span>
                           </span>
                         </span>
                       </li>
@@ -422,10 +429,10 @@ const WINDOW_DAYS = 30;
                   <ul class="mt-4 flex flex-col gap-2">
                     @for (conversion of campaignConversions(); track conversion.id) {
                       <li
-                        class="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-lg border
+                        class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 rounded-lg border
                                border-border bg-surface p-4"
                       >
-                        <span class="w-24 font-mono text-ui-sm text-text-muted">
+                        <span class="font-mono sm:w-24 text-ui-sm text-text-muted">
                           {{ conversion.id }}
                         </span>
                         <span class="min-w-0 flex-1 text-ui text-ink">
@@ -435,7 +442,7 @@ const WINDOW_DAYS = 30;
                           {{ conversion.occurredAt | rlyDate }}
                         </span>
                         <rly-conversion-status [status]="conversion.status" />
-                        <span class="w-24 text-right text-ui tabular-nums text-ink">
+                        <span class="sm:w-24 sm:text-right text-ui tabular-nums text-ink">
                           {{ conversion.commission | rlyMoney }}
                         </span>
                       </li>

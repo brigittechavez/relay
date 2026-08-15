@@ -119,7 +119,7 @@ import { DatePipe, MoneyPipe, RelativeDatePipe } from '@shared/pipes/format.pipe
             <ul class="mt-4 flex flex-col gap-2">
               @for (payout of payouts(); track payout.id) {
                 <li
-                  class="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-lg border border-border
+                  class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 rounded-lg border border-border
                          bg-surface p-4"
                 >
                   <span class="min-w-0 flex-1">
@@ -135,7 +135,7 @@ import { DatePipe, MoneyPipe, RelativeDatePipe } from '@shared/pipes/format.pipe
 
                   <rly-payout-status [status]="payout.status" />
 
-                  <span class="w-28 text-right text-ui font-medium tabular-nums text-ink">
+                  <span class="sm:w-28 sm:text-right text-ui font-medium tabular-nums text-ink">
                     {{ payout.amount | rlyMoney }}
                   </span>
                 </li>
@@ -154,10 +154,10 @@ import { DatePipe, MoneyPipe, RelativeDatePipe } from '@shared/pipes/format.pipe
             <ul class="mt-4 flex flex-col gap-2">
               @for (conversion of conversions(); track conversion.id) {
                 <li
-                  class="flex flex-wrap items-center gap-x-5 gap-y-2 rounded-lg border border-border
+                  class="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-x-5 sm:gap-y-2 rounded-lg border border-border
                          bg-surface p-4"
                 >
-                  <span class="w-24 shrink-0 font-mono text-ui-sm text-text-muted">
+                  <span class="shrink-0 font-mono sm:w-24 text-ui-sm text-text-muted">
                     {{ conversion.id }}
                   </span>
 
@@ -175,7 +175,7 @@ import { DatePipe, MoneyPipe, RelativeDatePipe } from '@shared/pipes/format.pipe
 
                   <rly-conversion-status [status]="conversion.status" />
 
-                  <span class="w-24 text-right text-ui tabular-nums text-ink">
+                  <span class="sm:w-24 sm:text-right text-ui tabular-nums text-ink">
                     {{ conversion.commission | rlyMoney }}
                   </span>
                 </li>
