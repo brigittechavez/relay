@@ -184,7 +184,7 @@ export class CampaignCard {
       case 'featured':
         return `${base} flex-col sm:flex-row`;
       case 'horizontal':
-        return `${base} flex-row items-stretch`;
+        return `${base} flex-col sm:flex-row sm:items-stretch`;
       case 'compact':
         return `${base} flex-col`;
       default:
@@ -197,14 +197,16 @@ export class CampaignCard {
       case 'featured':
         return 'relative shrink-0 sm:w-2/5';
       case 'horizontal':
-        return 'relative w-28 shrink-0 sm:w-40';
+        return 'relative w-full shrink-0 sm:w-40';
       default:
         return 'relative';
     }
   });
 
   protected readonly bodyClasses = computed(() =>
-    this.variant() === 'featured' ? 'flex flex-1 flex-col p-5 sm:p-6' : 'flex flex-1 flex-col p-4',
+    this.variant() === 'featured'
+      ? 'flex min-w-0 flex-1 flex-col p-5 sm:p-6'
+      : 'flex min-w-0 flex-1 flex-col p-4',
   );
 
   protected readonly titleClasses = computed(() =>
@@ -213,7 +215,7 @@ export class CampaignCard {
 
   protected readonly ctaClasses = computed(() =>
     [
-      'mt-4 inline-flex items-center gap-1.5 text-ui font-medium',
+      'pointer-events-none mt-4 inline-flex items-center gap-1.5 text-ui font-medium',
       this.relation() === 'not-eligible' ? 'text-text-secondary' : 'text-ink',
       'transition-transform duration-micro group-hover:translate-x-0.5',
     ].join(' '),

@@ -105,6 +105,28 @@ test.describe('Afiliado: generar link tras la aprobación', () => {
   });
 });
 
+test.describe('Tarjeta de campaña', () => {
+  test('la llamada a la acción de la tarjeta abre la campaña', async ({ page }) => {
+    await startAffiliateDemo(page);
+    await page.goto('/app/affiliate/marketplace');
+
+    const cta = page.getByText('Ver y aplicar').first();
+    await cta.scrollIntoViewIfNeeded();
+
+    /*
+     * Se pulsa por coordenadas y no con el localizador porque el texto no es el
+     * elemento que recibe el clic: toda la tarjeta es un enlace mediante una
+     * capa superpuesta. Lo que se comprueba es justo eso, que ahí no queda un
+     * punto muerto —el texto llevaba una transformación que lo pintaba por
+     * encima de la capa y se tragaba el clic sin hacer nada—.
+     */
+    const box = await cta.boundingBox();
+    await page.mouse.click(box!.x + box!.width / 2, box!.y + box!.height / 2);
+
+    await expect(page).toHaveURL(/\/campanas\//);
+  });
+});
+
 test.describe('Demo', () => {
   test('el marketplace público funciona sin sesión', async ({ page }) => {
     await resetDemoState(page);

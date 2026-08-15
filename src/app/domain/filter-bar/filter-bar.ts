@@ -57,9 +57,9 @@ export interface SortOption {
         />
       </rly-search-input>
 
-      <div class="flex items-center gap-2">
+      <div class="flex min-w-0 items-center gap-2">
         @if (sortOptions().length) {
-          <rly-select class="min-w-44">
+          <rly-select class="min-w-0 flex-1 sm:min-w-44 sm:flex-none">
             <select
               rlySelect
               compact
