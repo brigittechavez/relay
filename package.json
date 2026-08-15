@@ -20,6 +20,7 @@
     "icons": "node scripts/build-icons.mjs",
     "seo": "node scripts/build-seo-files.mjs",
     "og": "node scripts/build-og-image.mjs",
+    "campaign-images": "node scripts/build-campaign-images.mjs",
     "screenshots": "node scripts/capture-screenshots.mjs",
     "storybook": "ng run relay:storybook",
     "build-storybook": "ng run relay:build-storybook",

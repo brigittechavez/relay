@@ -149,7 +149,7 @@ export class CampaignCover {
         sm: 'aspect-[16/9]',
         md: 'aspect-[16/9]',
         lg: 'aspect-[21/9]',
-        hero: 'aspect-[32/9]',
+        hero: 'aspect-[16/9] lg:aspect-[32/9]',
       }[this.size()],
     ].join(' '),
   );

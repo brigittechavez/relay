@@ -148,6 +148,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 9, conversionRate: 1.62, conversions: 34, clicks: 2100 },
 
     cover: 'servicios-01',
+    image: {
+      src: '/campanas/landing-pro.webp',
+      alt: 'Un portátil muestra una página de destino terminada; al lado, un cuaderno con los bocetos de esa misma pantalla y una gráfica de conversiones impresa',
+    },
     createdAt: '2026-02-03',
     publishedAt: '2026-02-10',
   },
@@ -237,6 +241,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 48, conversionRate: 2.35, conversions: 186, clicks: 7900 },
 
     cover: 'tecnologia-01',
+    image: {
+      src: '/campanas/workspace-plus.webp',
+      alt: 'Alguien trabaja en un portátil con un tablero de tarjetas repartidas por columnas mientras anota en un cuaderno abierto',
+    },
     createdAt: '2025-07-01',
     publishedAt: '2025-07-08',
   },
@@ -337,6 +345,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 21, conversionRate: 1.28, conversions: 62, clicks: 4800 },
 
     cover: 'educacion-01',
+    image: {
+      src: '/campanas/growth-bootcamp.webp',
+      alt: 'Cuatro personas sentadas alrededor de una mesa de madera toman notas en sus cuadernos mientras revisan documentos impresos y un portátil',
+    },
     createdAt: '2026-04-18',
     publishedAt: '2026-04-25',
   },
@@ -422,6 +434,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 7, conversionRate: 1.1, conversions: 14, clicks: 1270 },
 
     cover: 'marketing-01',
+    image: {
+      src: '/campanas/brand-sprint.webp',
+      alt: 'Dos manos colocan muestras de color y de material sobre un esquema dibujado a lápiz en una lámina grande, junto a un cuaderno de bocetos',
+    },
     createdAt: '2026-06-09',
     publishedAt: '2026-06-16',
   },
@@ -527,6 +543,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 4, conversionRate: 2.9, conversions: 11, clicks: 380 },
 
     cover: 'servicios-02',
+    image: {
+      src: '/campanas/revenue-systems.webp',
+      alt: 'Escritorio en penumbra con un portátil y una tableta mostrando paneles de gráficos, e informes impresos apilados a un lado',
+    },
     createdAt: '2025-10-14',
     publishedAt: '2025-10-21',
   },
@@ -601,6 +621,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 33, conversionRate: 3.1, conversions: 240, clicks: 7740 },
 
     cover: 'membresias-01',
+    image: {
+      src: '/campanas/membresia-profesional.webp',
+      alt: 'Plantillas impresas ordenadas sobre una mesa clara, con una tableta que muestra una lista de tareas y una carpeta de trabajo cerrada',
+    },
     createdAt: '2025-08-02',
     publishedAt: '2025-08-11',
   },
@@ -688,6 +712,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 6, conversionRate: 1.34, conversions: 9, clicks: 670 },
 
     cover: 'servicios-03',
+    image: {
+      src: '/campanas/estrategia-de-marca.webp',
+      alt: 'Fotografías y muestras de material extendidas sobre una mesa a modo de panel de referencias, mientras dos personas eligen piezas y dibujan en un cuaderno',
+    },
     createdAt: '2026-03-05',
     publishedAt: '2026-03-12',
   },
@@ -755,6 +783,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 9, conversionRate: 1.8, conversions: 22, clicks: 1220 },
 
     cover: 'finanzas-01',
+    image: {
+      src: '/campanas/cierre-mensual.webp',
+      alt: 'Una mano teclea en una calculadora junto a un portátil con una hoja de cálculo abierta y varios informes financieros impresos',
+    },
     createdAt: '2026-04-02',
     publishedAt: '2026-04-09',
   },
@@ -812,6 +844,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 15, conversionRate: 1.05, conversions: 48, clicks: 4570 },
 
     cover: 'salud-01',
+    image: {
+      src: '/campanas/plan-doce-semanas.webp',
+      alt: 'Una esterilla enrollada, una botella de agua y un cuaderno de seguimiento abierto sobre el suelo, con una mano pasando la página',
+    },
     createdAt: '2026-01-20',
     publishedAt: '2026-01-27',
   },
@@ -870,6 +906,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 5, conversionRate: 1.4, conversions: 12, clicks: 860 },
 
     cover: 'productividad-01',
+    image: {
+      src: '/campanas/automatiza-tu-operacion.webp',
+      alt: 'Un monitor muestra un diagrama de flujo con pasos conectados entre sí, y el mismo esquema aparece impreso sobre el escritorio junto a una mano en el ratón',
+    },
     createdAt: '2026-05-11',
     publishedAt: '2026-05-18',
   },
@@ -927,6 +967,10 @@ export const CAMPAIGNS: readonly Campaign[] = [
     metrics: { activeAffiliates: 3, conversionRate: 0.9, conversions: 4, clicks: 440 },
 
     cover: 'marketing-02',
+    image: {
+      src: '/campanas/kit-de-lanzamiento.webp',
+      alt: 'Un portátil con un tablero de tareas repartidas por columnas sobre una mesa blanca, mientras una mano escribe en un cuaderno',
+    },
     createdAt: '2026-07-14',
     publishedAt: '2026-07-21',
   },

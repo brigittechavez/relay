@@ -1,6 +1,7 @@
 # Internal working material — NOT part of the public repository
 /docs/
 /design-references/
+/source-images/
 
 # Dependencies
 /node_modules
